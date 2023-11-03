@@ -1,0 +1,38 @@
+{
+  "name": "",
+  "id": null,
+  "key": "REST-1",
+  "type": "REST",
+  "arguments": {
+    "execute": {
+      "inArguments": [
+        {"ContactKey":  "{{Contact.key}}"},
+        {"FirstName" :  "{{Contact.Attribute.JourneyEntrySource.FirstName}}"},
+        {"LastName" :  "{{Contact.Attribute.JourneyEntrySource.lastName}}"}
+      ],
+      "url": "https://daesung6756.github.io/customactivitytest/"
+    }
+  },
+  "configurationArguments": {
+    "publish": {
+      "url": "https://daesung6756.github.io/customactivitytest/index.html"
+    }
+  },
+  "metaData": {
+    "icon": "https://daesung6756.github.io/customactivitytest/images/sms.png",
+    "category": "message",
+    "iconSmall": null,
+    "statsContactIcon": null,
+    "original_icon": "images/sms.png"
+  },
+  "editable": true,
+  "outcomes": [
+    {
+      "next": "WAITBYDURATION-2",
+      "metaData": {
+        "invalid": false
+      }
+    }
+  ],
+  "errors": null
+}
