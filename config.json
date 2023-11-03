@@ -6,8 +6,29 @@
   },
   "type": "REST",
   "userInterfaces": {
-    "configInspector" : {
-      "size": "large"
+    "configModal": {
+      "height": 600,
+      "width": 1000,
+      "fullscreen": true
+    }
+  },
+  "configurationArguments": {
+    "publish": {
+      "url": ""
+    }
+  },
+  "schema": {
+    "arguments": {
+      "execute": {
+        "inArguments": [{
+          "myInArgument": {
+            "dataType": "<some data type>",
+            "isNullable": false,
+            "direction": "in"
+          }
+        }],
+        "outArguments": []
+      }
     }
   }
 }
