@@ -6,346 +6,190 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>SMS / Kakaotalk / Survey</title>
-    <style>
-        /* reset */
-        html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {margin: 0;padding: 0;border: 0;font-size: 100%;font: inherit;vertical-align: baseline;}  /* HTML5 display-role reset for older browsers */  article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {display: block;}  body {line-height: 1;}  ol, ul {list-style: none;}  blockquote, q {quotes: none;}  blockquote:before, blockquote:after, q:before, q:after {content: '';content: none;}  table {border-collapse: collapse;border-spacing: 0;}
-        body {
-            color:#333;
-        }
-        /* style */
-        .send-wrap {position:relative;max-width:1200px;margin:0 auto;padding:20px;}
-
-        .tabs .tab-control ul {display:flex;align-items: center;justify-content: flex-end;gap:10px;}
-        .tabs .tab-control ul li {min-width:120px;padding:10px 10px 10px;text-align:center;border-radius:10px 10px 0 0;overflow:hidden;cursor:pointer;}
-        .tabs .tab-control ul li.is-active {background:#0073b1;color:#fff;}
-        .tabs .tab-container .tab-content {display:none;}
-        .tabs .tab-container .tab-content.is-show {display:block;}
-        .tabs .form-wrap {display:flex;align-items: flex-start;justify-content: space-between;padding:20px;border-top:1px solid #aaa;}
-        .tabs .form-wrap .view {width:375px;}
-        .tabs .form-wrap .form-list {width:calc(100% - 375px)}
-        .send-tab {padding:20px; border:2px solid #ddd;}
-
-        .consulting-chat {position:relative;}
-        .consulting-chat .phone-wrap {padding:20px;background:#fff;}
-        .consulting-chat .phone-wrap * {-webkit-box-sizing:border-box;box-sizing:border-box;}
-        .consulting-chat .phone-wrap .title {font-size:20px;line-height:26px;font-weight:700;margin-bottom:10px;}
-        .consulting-chat .icon {display:inline-block;width:10px;height:10px;background-position:center center;background-size:contain;background-repeat:no-repeat;}
-        .consulting-chat .icon-battery{background-image:url(https://cunning-otter-jr7g2b-dev-ed.trailblaze.file.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Png&versionId=0685j00000HNLO4&operationContext=CHATTER&contentId=05T5j00000jQHF2);}
-        .consulting-chat .icon-wifi{background-image:url(https://cunning-otter-jr7g2b-dev-ed.trailblaze.file.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Png&versionId=0685j00000HNK70&operationContext=CHATTER&contentId=05T5j00000jQCsU) ;}
-        .consulting-chat .icon-bluetooth{background-image:url(https://cunning-otter-jr7g2b-dev-ed.trailblaze.file.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Png&versionId=0685j00000HNK6z&operationContext=CHATTER&contentId=05T5j00000jQDk6);}
-        .consulting-chat .icon-lte{background-image:url(https://cunning-otter-jr7g2b-dev-ed.trailblaze.file.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Png&versionId=0685j00000HNK6u&operationContext=CHATTER&contentId=05T5j00000jQDjw);}
-        .consulting-chat .icon-lte-signal {background-image:url(https://cunning-otter-jr7g2b-dev-ed.trailblaze.file.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Png&versionId=0685j00000HNK6v&operationContext=CHATTER&contentId=05T5j00000jQDk1);}
-        .consulting-chat .phone-wrap .phone {position:relative;padding:10px;border-radius:20px;background: rgb(0,0,0);background: -o-linear-gradient(148deg, rgba(0,0,0,1) 0%, rgba(53,53,59,1) 48%, rgba(0,0,0,1) 100%);background: linear-gradient(302deg, rgba(0,0,0,1) 0%, rgba(53,53,59,1) 48%, rgba(0,0,0,1) 100%);;-webkit-box-shadow:4px 4px 4px rgba(0,0,0,.3);box-shadow:4px 4px 4px rgba(0,0,0,.3);max-width:300px;margin:0 auto;}
-        .consulting-chat .phone-wrap .phone .outer-btns .left-btn-01,
-        .consulting-chat .phone-wrap .phone .outer-btns .left-btn-02,
-        .consulting-chat .phone-wrap .phone .outer-btns .left-btn-03,
-        .consulting-chat .phone-wrap .phone .outer-btns .right-btn {position:absolute;background:#000;width:6px;left:-3px;border-radius:10px;font-size:0;line-height:1;}
-        .consulting-chat .phone-wrap .phone .outer-btns .left-btn-01 {top:40px;height:20px;}
-        .consulting-chat .phone-wrap .phone .outer-btns .left-btn-02 {top:65px;height:20px;}
-        .consulting-chat .phone-wrap .phone .outer-btns .left-btn-03 {top:95px;height:40px;}
-        .consulting-chat .phone-wrap .phone .outer-btns .right-btn {top:40px;left:calc(100% - 3px);height:40px;background: #35353b;}
-
-        .consulting-chat .phone-wrap .phone-head {position:relative;background:#A8C0D6;min-height:30px;border-radius:10px 10px 0 0;}
-        .consulting-chat .phone-wrap .phone-head .status-bar {position:absolute;top:10px;right:20px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align: center;-ms-flex-align: center;align-items: center;-webkit-box-pack: start;-ms-flex-pack: start;justify-content: flex-start;gap:5px;}
-        .consulting-chat .phone-wrap .phone-head .camera {display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack: justify;-ms-flex-pack: justify;justify-content: space-between;width:40px;height:10px;background:#000;border-radius:10px;padding:0 3px;}
-        .consulting-chat .phone-wrap .phone-head .camera::before,
-        .consulting-chat .phone-wrap .phone-head .camera::after {content:"";width:8px;height:8px;background:#333;border-radius:50%;font-size:0;line-height:1;}
-
-        .consulting-chat .phone-wrap .phone-body {background:#A8C0D6;height:450px;overflow:hidden;overflow-y:auto;padding:20px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;-ms-flex-flow:column-reverse;flex-flow:column-reverse;border-radius:0 0 10px 10px}
-        .consulting-chat .phone-wrap .phone-body::-webkit-scrollbar {width: 8px;height: 8px;background-color: transparent;}
-        .consulting-chat .phone-wrap .phone-body::-webkit-scrollbar-thumb {background:rgba(0,0,0,.1);border-radius:10px;}
-
-        .consulting-chat .phone-wrap .phone-foot .kko-input {font-size:0;line-height:1;border-radius:0 0 10px 10px;overflow:hidden;}
-        .consulting-chat .phone-wrap .phone-foot .kko-input textarea{resize:none;width:100%;height:60px;padding:10px;font-size:14px;line-height:20px;border:0;}
-        .consulting-chat .phone-wrap .phone-foot .kko-input button {width:100%;height:40px;background:#ffd900;font-size:12px;line-height:1;color:#000000;font-weight:700;border:0}
-
-        .consulting-chat .phone-wrap .chat-wrap .chat {display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;gap:20px;padding:10px 0;}
-        .consulting-chat .phone-wrap .chat-wrap .chat .profile {position:relative;background:#fff;width:40px;height:40px;border-radius:50%;-webkit-box-shadow: 3px 3px 3px rgba(0,0,0,.1);box-shadow: 3px 3px 3px rgba(0,0,0,.1);}
-        .consulting-chat .phone-wrap .chat-wrap .chat .profile .pic {width:40px;height:40px;background:url(https://cunning-otter-jr7g2b-dev-ed.trailblaze.file.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Png&versionId=0685j00000HNLU7&operationContext=CHATTER&contentId=05T5j00000jQHYJ) center center/contain no-repeat;}
-        .consulting-chat .phone-wrap .chat-wrap .chat .msg {position:relative;color:#000;background:#fff;padding:8px;font-size:0;line-height:1;border-radius:10px;}
-        .consulting-chat .phone-wrap .chat-wrap .chat .msg::before {position:absolute;top:10px;font-size:14px;line-height:1;}
-        .consulting-chat .phone-wrap .chat-wrap .chat .msg > p {font-size:12px;line-height:18px;margin:0;padding:0;}
-
-        .consulting-chat .phone-wrap .chat-wrap .chat.ch1 .msg::before {content:"◀";left:-10px;color:#fff;}
-        .consulting-chat .phone-wrap .chat-wrap .chat.ch2 {-webkit-box-pack: end;-ms-flex-pack: end;justify-content: flex-end;}
-        .consulting-chat .phone-wrap .chat-wrap .chat.ch2 .profile {-webkit-box-ordinal-group:3;-ms-flex-order:2;order:2}
-        .consulting-chat .phone-wrap .chat-wrap .chat.ch2 .msg{background:#F9EB54;-webkit-box-ordinal-group:2;-ms-flex-order:1;order:1}
-        .consulting-chat .phone-wrap .chat-wrap .chat.ch2 .msg::before {content: "▶";right:-10px;color: #F9EB54;}
-
-        .consulting-chat .confirm-popup {display:none;position:absolute;top:0;left:0;width:100%;height:100%;}
-        .consulting-chat .confirm-popup .popup-inner {display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align: center;-ms-flex-align: center;align-items: center;-webkit-box-pack: center;-ms-flex-pack: center;justify-content: center;width:100%;height:100%;}
-        .consulting-chat .is-dimmed {background:rgba(0,0,0,.6)}
-        .consulting-chat .confirm-popup.is-show {display:block;}
-        .consulting-chat .confirm-popup .popup {width:100%;max-width:80%;background:#fff;border:1px solid #efefef;border-radius:10px;}
-        .consulting-chat .confirm-popup .popup-body {padding:10px;text-align:center;}
-        .consulting-chat .confirm-popup .popup-body .title{font-size:16px;line-height:22px;font-weight:700;}
-        .consulting-chat .confirm-popup .popup-body .name{color:#2952ce}
-        .consulting-chat .confirm-popup .popup-body .desc{margin-top:10px;font-size:12px;line-height:18px;color:#666;}
-        .consulting-chat .confirm-popup .popup-foot {padding:0 10px 10px;text-align:center;display: -webkit-box;display: -ms-flexbox;display: flex;align-items: self-start;-webkit-box-pack: center;-ms-flex-pack: center;justify-content: center;gap:10px}
-        .consulting-chat .confirm-popup .btn {display:inline-block;height:36px;min-width:70px;font-size:14px;line-height:1;font-weight:700;border:0;}
-        .consulting-chat .confirm-popup .bg-info {background:#999;color:#fff;}
-        .consulting-chat .confirm-popup .bg-primary {background:#2952ce;color:#fff;}
-        .consulting-chat .confirm-popup .is-round {border-radius:18px}
-        .consulting-chat .bell-icon-ani {-webkit-animation: shakeAni 1.2s linear infinite;animation: shakeAni 1.2s linear infinite;color:#666}
-
-        @-webkit-keyframes shakeAni {
-            0%, 4%, 8%, 12%, 16%, 20%, 30%, 40%, 50% , 60%, 100% {
-                -webkit-transform: rotate(0);
-                transform: rotate(0);
-            }
-            2%, 10%, 18%, 25%, 45% {
-                -webkit-transform: rotate(-10deg);
-                transform: rotate(-10deg);
-            }
-            6%, 14%, 22%, 35%, 55% {
-                -webkit-transform: rotate(10deg);
-                transform: rotate(10deg);
-            }
-        }
-        @keyframes shakeAni {
-            0%, 4%, 8%, 12%, 16%, 20%, 30%, 40%, 50% , 60%, 100% {
-                -webkit-transform: rotate(0);
-                transform: rotate(0);
-            }
-            2%, 10%, 18%, 25%, 45% {
-                -webkit-transform: rotate(-10deg);
-                transform: rotate(-10deg);
-            }
-            6%, 14%, 22%, 35%, 55% {
-                -webkit-transform: rotate(10deg);
-                transform: rotate(10deg);
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-    <div class="wrap">
-        <div class="send-wrap">
+<div class="wrap">
+    <div class="send-wrap">
 
-            <div class="tabs send-tab" data-tab="test1">
-                <div class="tab-control">
-                    <ul>
-                        <li data-tab-control="test1">SMS</li>
-                        <li data-tab-control="test1">KKO</li>
-                        <li data-tab-control="test1">survey</li>
-                    </ul>
-                </div>
-                <div class="tab-container">
-                    <div class="tab-content sms" data-tab-content="test1">
-                        <div class="form-wrap">
-                            <div class="view">
-                                <p>SMS</p>
-                                <div class="consulting-chat">
-                                    <div class="phone-wrap">
-                                        <div class="phone">
-                                            <div class="outer-btns">
-                                                <span class="left-btn-01"></span>
-                                                <span class="left-btn-02"></span>
-                                                <span class="left-btn-03"></span>
-                                                <span class="right-btn"></span>
-                                            </div>
-                                            <div class="phone-head">
-                                                <div class="status-bar">
-                                                    <i class="icon icon-wifi"></i>
-                                                    <i class="icon icon-bluetooth"></i>
-                                                    <i class="icon icon-lte"></i>
-                                                    <i class="icon icon-lte-signal"></i>
-                                                    <i class="icon icon-battery"></i>
-                                                    <span class="camera"></span>
-                                                </div>
-                                            </div>
-                                            <div class="phone-body">
-                                                <div class="chat-wrap" data-kkochat>
-                                                    <div class="chat ch1">
-                                                        <div class="profile">
-                                                            <div class="pic"></div>
-                                                        </div>
-                                                        <div class="msg"><p>안녕하세요?</p></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="phone-foot">
+        <div class="content-area">
+            <div class="view">
+                <div class="phone-wrap">
+                    <div class="phone">
 
-                                            </div>
-                                        </div>
+                        <div class="outer-btns">
+                            <span class="left-btn-01"></span>
+                            <span class="left-btn-02"></span>
+                            <span class="left-btn-03"></span>
+                            <span class="right-btn"></span>
+                        </div>
+                        <div class="phone-head">
+                            <div class="status-bar">
+                                <i class="icon icon-wifi"></i>
+                                <i class="icon icon-bluetooth"></i>
+                                <i class="icon icon-lte"></i>
+                                <i class="icon icon-lte-signal"></i>
+                                <i class="icon icon-battery"></i>
+                                <span class="camera"></span>
+                            </div>
+                        </div>
+                        <div class="phone-body">
+                            <div class="chat-wrap">
+                                <div class="chat" >
+                                    <div class="msg">
+                                        <p data-msg-title></p>
+                                        <p data-msg-main></p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-list">
-                                <fieldset class="kko-input">
-                                    <textarea class="my-input" placeholder="내용을 입력하세요."></textarea>
-                                    <button type="button" onclick={messagePush} data-kkochat-ch="ch2">내 전송</button>
-                                    <button type="button" onclick={messagePush} data-kkochat-ch="ch1" style="background:#3176ff;color:#fff">상대 전송</button>
-                                </fieldset>
-                            </div>
                         </div>
-                    </div>
-                    <div class="tab-content kko" data-tab-content="test1">
-                        <div class="form-wrap">
-                            <div class="view">
-                                <p>KAKAO</p>
-                                <div class="consulting-chat">
-                                    <div class="phone-wrap">
-                                        <div class="phone">
-                                            <div class="outer-btns">
-                                                <span class="left-btn-01"></span>
-                                                <span class="left-btn-02"></span>
-                                                <span class="left-btn-03"></span>
-                                                <span class="right-btn"></span>
-                                            </div>
-                                            <div class="phone-head">
-                                                <div class="status-bar">
-                                                    <i class="icon icon-wifi"></i>
-                                                    <i class="icon icon-bluetooth"></i>
-                                                    <i class="icon icon-lte"></i>
-                                                    <i class="icon icon-lte-signal"></i>
-                                                    <i class="icon icon-battery"></i>
-                                                    <span class="camera"></span>
-                                                </div>
-                                            </div>
-                                            <div class="phone-body">
-                                                <div class="chat-wrap" data-kkochat>
-                                                    <div class="chat ch1">
-                                                        <div class="profile">
-                                                            <div class="pic"></div>
-                                                        </div>
-                                                        <div class="msg"><p>안녕하세요?</p></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="phone-foot">
+                        <div class="phone-foot">
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-list">
-                                <fieldset class="kko-input">
-                                    <textarea class="my-input" placeholder="내용을 입력하세요."></textarea>
-                                    <button type="button" onclick={messagePush} data-kkochat-ch="ch2">내 전송</button>
-                                    <button type="button" onclick={messagePush} data-kkochat-ch="ch1" style="background:#3176ff;color:#fff">상대 전송</button>
-                                </fieldset>
-                            </div>
                         </div>
-                    </div>
-                    <div class="tab-content survey" data-tab-content="test1">
-                        <div class="form-wrap">
-                            <div class="view">
-                                <P>Survey</P>
-                                <div class="consulting-chat">
-                                    <div class="phone-wrap">
-                                        <div class="phone">
-                                            <div class="outer-btns">
-                                                <span class="left-btn-01"></span>
-                                                <span class="left-btn-02"></span>
-                                                <span class="left-btn-03"></span>
-                                                <span class="right-btn"></span>
-                                            </div>
-                                            <div class="phone-head">
-                                                <div class="status-bar">
-                                                    <i class="icon icon-wifi"></i>
-                                                    <i class="icon icon-bluetooth"></i>
-                                                    <i class="icon icon-lte"></i>
-                                                    <i class="icon icon-lte-signal"></i>
-                                                    <i class="icon icon-battery"></i>
-                                                    <span class="camera"></span>
-                                                </div>
-                                            </div>
-                                            <div class="phone-body">
-                                                <div class="chat-wrap" data-kkochat>
-                                                    <div class="chat ch1">
-                                                        <div class="profile">
-                                                            <div class="pic"></div>
-                                                        </div>
-                                                        <div class="msg"><p>안녕하세요?</p></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="phone-foot">
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-list">
-                                <fieldset class="kko-input">
-                                    <textarea class="my-input" placeholder="내용을 입력하세요."></textarea>
-                                    <button type="button" onclick={messagePush} data-kkochat-ch="ch2">내 전송</button>
-                                    <button type="button" onclick={messagePush} data-kkochat-ch="ch1" style="background:#3176ff;color:#fff">상대 전송</button>
-                                </fieldset>
-                            </div>
-                        </div>
                     </div>
-                </div>
-                <div style="text-align:right">
-                    <button type="submit">전송</button>
+                    <div class="noti">
+
+                    </div>
                 </div>
             </div>
+            <div class="form-wrap">
+                <ul class="form-list">
+                    <li>
+                        <fieldset class="radio-group">
+                            <span class="radio box-type">
+                                <input type="radio" id="sms" name="messageType" data-messagetype checked/>
+                                <label for="sms">SMS</label>
+                            </span>
+                            <span class="radio box-type">
+                                <input type="radio" id="kko" name="messageType" data-messagetype />
+                                <label for="kko">Kakao</label>
+                            </span>
+                        </fieldset>
+                    </li>
+                    <li>
+                        <h3 class="title">제목 입력</h3>
+                        <fieldset class="message-input">
+                            <input type="text" class="input" placeholder="내용을 입력하세요." data-msg-input="title" />
+                        </fieldset>
+                    </li>
+                    <li>
+                        <h3 class="title">메세지 입력</h3>
+                        <fieldset class="message-input">
+                            <textarea class="input" placeholder="내용을 입력하세요." data-msg-input="mainmsg"></textarea>
+                        </fieldset>
+                    </li>
+                    <li>
+                        <h3 class="title">설문</h3>
+                        <p class="desc">* 아래 체크박스를 체크하시면 진행됩니다. 설문은 캠페인에서 설정하세요.</p>
+                        <fieldset class="checkbox-group">
+                            <input type="checkbox" id="survey" name="survey">
+                            <label for="survey">진행</label>
+                        </fieldset>
+                    </li>
+                    <li>
+                        <h3 class="title">선택</h3>
+                        <fieldset class="">
 
+                        </fieldset>
+                    </li>
+                </ul>
+            </div>
         </div>
+
+        <div class="btn-area">
+            <button type="submit">전송</button>
+        </div>
+
     </div>
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/postmonger.js"></script>
-    <script type="text/javascript" src="customActivity.js"></script>
-    <script type="text/javascript">
-        const UI = {
-            init : function () {
-                this.tabs.init()
+</div>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/postmonger.js"></script>
+<script type="text/javascript" src="customActivity.js"></script>
+<script type="text/javascript">
+    const data = {
+        type: "SMS",
+        title: "",
+        mainText : "",
+        image: "",
+    }
+    const UI = {
+        init : function () {
+            this.messageInputView.init()
+        },
+        messageTypeSelect : {
+            name: "UI > Message type Radio",
+            items : document.querySelectorAll("[data-messagetype]"),
+            init: function () {
+                this.items.length > 0 ?
+                    this.dataCollection() :
+                    console.log(`${this.name} data가 존재하지 않습니다.`)
             },
-            tabs : {
-                name: 'UI > tab',
-                items : document.querySelectorAll(`[data-tab]`),
-                itemArray : [],
-                init:function () {
-                    console.log(this.items)
-                    this.items.length > 0 ?
-                        this.dataCollection() :
-                        console.log(`${this.name} data가 존재하지 않습니다.`)
-                },
-                dataCollection : function () {
-                    this.items.forEach((item) => {
-                        this.itemArray.indexOf(item.dataset.tab) === -1 ?
-                            (
-                                this.itemArray.push(item.dataset.tab),
-                                    console.log(this.itemArray),
-                                    this.events()
+            events: function () {
+                this.items.forEach((radio) => {
+                    radio.addEventListener("click", () => {
+
+                    })
+                })
+            },
+        },
+        messageInputView: {
+            name: 'UI > input message view',
+            items : document.querySelectorAll(`[data-msg-input]`),
+            itemArray : [],
+            init : function () {
+                this.items.length > 0 ?
+                    this.dataCollection() :
+                    console.log(`${this.name} data가 존재하지 않습니다.`)
+            },
+            dataCollection : function () {
+                this.items.forEach((item) => {
+                    this.itemArray.indexOf(item.dataset.msgInput) === -1 ?
+                        (
+                            this.itemArray.push(item.dataset.msgInput),
+                                console.log(this.itemArray),
+                                this.events()
+                        )
+                        : console.log(`${this.name} data가 존재하지 않습니다.`)
+                })
+            },
+            events: function () {
+                const _this = this;
+                this.itemArray.forEach((dataName) => {
+                    const input = document.querySelector(`[data-msg-input=${dataName}]`)
+                    const titleView = document.querySelector(`[data-msg-title]`)
+                    const mainView = document.querySelector(`[data-msg-main]`)
+                    input.addEventListener("change", () => {
+                        dataName === "title" ?
+                            titleView.textContent = input.value
+                            : (
+                                mainView.textContent = input.value,
+                                this.mmsCheck(input)
                             )
-                            : console.log(`${this.name} data가 존재하지 않습니다.`)
+
                     })
-                },
-                events: function () {
-                    this.itemArray.forEach((dataName) => {
-                        const tab = document.querySelector(`[data-tab=${dataName}]`)
-                        const controls = document.querySelectorAll(`[data-tab-control=${dataName}]`)
-                        const contents = document.querySelectorAll(`[data-tab-content=${dataName}]`)
-                        let activeIndex = 0;
-
-                        controls[0].classList.add("is-active")
-                        contents[0].classList.add("is-show")
-
-                        controls.forEach((btn, btnIndex) => {
-                            btn.addEventListener("click", () => {
-
-                                controls[activeIndex].classList.remove("is-active")
-                                contents[activeIndex].classList.remove("is-show")
-
-                                activeIndex = btnIndex
-
-                                controls[activeIndex].classList.add("is-active")
-                                contents[activeIndex].classList.add("is-show")
-
-                            })
-                        })
-                    })
-                },
+                })
+            },
+            mmsCheck : function (elem) {
+                data.type === "SMS" ?
+                elem.value.length > 50 ?
+                    (
+                       alert("MMS"),
+                        data.type = "MMS",
+                        console.log(data)
+                    )
+                    : (
+                        alert("SMS"),
+                        data.type = "SMS",
+                        console.log(data)
+                    )
+                : false
             }
+        },
+    }
 
-        }
-
-        //UI Run
-        UI.init()
-    </script>
+    //UI Run
+    UI.init()
+</script>
 </body>
 </html>
