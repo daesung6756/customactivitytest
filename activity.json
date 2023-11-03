@@ -10,7 +10,7 @@
         {"FirstName" :  "{{Contact.Attribute.JourneyEntrySource.FirstName}}"},
         {"LastName" :  "{{Contact.Attribute.JourneyEntrySource.lastName}}"}
       ],
-      "url": "https://daesung6756.github.io/customactivitytest/"
+      "url": "백에드경로"
     }
   },
   "configurationArguments": {
