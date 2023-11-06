@@ -7,6 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>SMS / Kakaotalk / Survey</title>
     <link rel="stylesheet" href="css/style.css" />
+    <script>
+        const data = {
+            dataType: "SMS",
+            b: "",
+        }
+    </script>
 </head>
 <body>
 <div class="wrap">
@@ -159,12 +165,11 @@
                     const input = document.querySelector(`[data-msg-input=${dataName}]`)
                     const titleView = document.querySelector(`[data-msg-title]`)
                     const mainView = document.querySelector(`[data-msg-main]`)
-                    input.addEventListener("change", () => {
+                    input.addEventListener("keyup", () => {
                         dataName === "title" ?
                             titleView.textContent = input.value
                             : (
                                 mainView.textContent = input.value,
-                                this.mmsCheck(input)
                             )
 
                     })
