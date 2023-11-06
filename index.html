@@ -7,8 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>SMS / Kakaotalk / Survey</title>
     <link rel="stylesheet" href="css/style.css" />
-    <script>
-        const data = {
+    <script type="text/javascript">
+        let data = {
             dataType: "SMS",
             b: "",
         }
@@ -42,21 +42,16 @@
                         <div class="phone-body">
                             <div class="chat-wrap">
                                 <div class="chat" >
-                                    <div class="msg">
-                                        <p data-msg-title></p>
-                                        <p data-msg-main></p>
+                                    <div class="msg" data-msg-view>
+                                        <span class="title"></span>
+                                        <p></p>
                                     </div>
                                 </div>
                             </div>
+                            <div class="notification-wrap is-ani">SMS</div>
                         </div>
-                        <div class="phone-foot">
-
-                        </div>
-
                     </div>
-                    <div class="noti">
 
-                    </div>
                 </div>
             </div>
             <div class="form-wrap">
@@ -82,8 +77,14 @@
                     <li>
                         <h3 class="title">메세지 입력</h3>
                         <fieldset class="message-input">
-                            <textarea class="input" placeholder="내용을 입력하세요." data-msg-input="mainmsg"></textarea>
+                            <textarea class="input" placeholder="내용을 입력하세요." data-msg-input="main"></textarea>
                         </fieldset>
+                        <p data-msg-size class="text-size">0/90 byte</p>
+                        <ul>
+                            <li>SMS : 한글기준 45자(90byte) 내외의 단문 메시지</li>
+                            <li>LMS : 한글기준 1,000자(2,000byte) 내외의 장문 메시지</li>
+                            <li>MMS : 한글기준 1,000자(2,000byte) 내외의 장문과 이미지(JPG)를 포함한 메시지</li>
+                        </ul>
                     </li>
                     <li>
                         <h3 class="title">설문</h3>
@@ -96,7 +97,7 @@
                     <li>
                         <h3 class="title">선택</h3>
                         <fieldset class="">
-
+                            <button type="button" onclick=""></button>
                         </fieldset>
                     </li>
                 </ul>
@@ -113,86 +114,160 @@
 <script type="text/javascript" src="js/postmonger.js"></script>
 <script type="text/javascript" src="customActivity.js"></script>
 <script type="text/javascript">
-    const data = {
-        type: "SMS",
-        title: "",
-        mainText : "",
-        image: "",
-    }
     const UI = {
+        messageType : "SMS" || "MMS" || "KKO",
         init : function () {
+            this.messageTypeSelect.init();
             this.messageInputView.init()
         },
         messageTypeSelect : {
             name: "UI > Message type Radio",
             items : document.querySelectorAll("[data-messagetype]"),
+            phoneElement : document.querySelector(".phone-wrap"),
             init: function () {
                 this.items.length > 0 ?
-                    this.dataCollection() :
-                    console.log(`${this.name} data가 존재하지 않습니다.`)
-            },
-            events: function () {
-                this.items.forEach((radio) => {
-                    radio.addEventListener("click", () => {
-
-                    })
-                })
-            },
-        },
-        messageInputView: {
-            name: 'UI > input message view',
-            items : document.querySelectorAll(`[data-msg-input]`),
-            itemArray : [],
-            init : function () {
-                this.items.length > 0 ?
-                    this.dataCollection() :
-                    console.log(`${this.name} data가 존재하지 않습니다.`)
-            },
-            dataCollection : function () {
-                this.items.forEach((item) => {
-                    this.itemArray.indexOf(item.dataset.msgInput) === -1 ?
-                        (
-                            this.itemArray.push(item.dataset.msgInput),
-                                console.log(this.itemArray),
-                                this.events()
-                        )
-                        : console.log(`${this.name} data가 존재하지 않습니다.`)
-                })
+                    this.events()
+                    : false
             },
             events: function () {
                 const _this = this;
-                this.itemArray.forEach((dataName) => {
-                    const input = document.querySelector(`[data-msg-input=${dataName}]`)
-                    const titleView = document.querySelector(`[data-msg-title]`)
-                    const mainView = document.querySelector(`[data-msg-main]`)
-                    input.addEventListener("keyup", () => {
-                        dataName === "title" ?
-                            titleView.textContent = input.value
-                            : (
-                                mainView.textContent = input.value
+                const elem = document.querySelector(".notification-wrap");
+                this.items.forEach((radio) => {
+                    radio.checked === true ?
+                        radio.id === "sms" || radio.id === "kko" ?
+                        _this.phoneElement.classList.add(radio.id)
+                        : _this.phoneElement.classList.remove(radio.id)
+                    : false
+
+                    radio.addEventListener("click", () => {
+                        radio.id === "sms" ?
+                            (
+                                _this.phoneElement.classList.remove("kko"),
+                                _this.phoneElement.classList.add("sms"),
+                                elem.classList.remove("is-hide")
+                            ) : (
+                                _this.phoneElement.classList.remove("sms"),
+                                _this.phoneElement.classList.add("kko"),
+                                elem.classList.add("is-hide")
                             )
 
+                        console.log(UI.messageType)
                     })
+                })
+            }
+        },
+        messageInputView: {
+            name: 'UI > input message view',
 
-                        input.addEventListener("change", () => {
-                            this.mmsCheck(input.value)
-                        })
+            items : document.querySelectorAll(`[data-msg-input]`),
+            msgSizeElem : document.querySelector(`[data-msg-size]`),
+            inputMessage : "",
+            itemArray : [],
+            limitByte : 90,
+            init : function () {
+                console.log(this.messageType)
+                this.items.length > 0 ?
+                    this.dataDecoration()
+
+                    : console.log(`${this.name} data가 없습니다.`)
+
+            },
+            dataDecoration: function () {
+                this.items.forEach((item) => {
+                    this.itemArray.indexOf(item.dataset.msgInput) === -1 ?
+                        this.itemArray.push(item.dataset.msgInput) :
+                        false
+                })
+                this.events()
+            },
+            events: function () {
+                const _this = this
+                const view = document.querySelector(`[data-msg-view]`)
+                const titleInput = document.querySelector("[data-msg-input='title']")
+                const mainInput = document.querySelector("[data-msg-input='main']")
+                let returnMessageArray = [];
+
+                this.itemArray.forEach((dataName) => {
+                    const input = document.querySelector(`[data-msg-input=${dataName}]`)
+
+                    input.addEventListener("keyup", () => {
+                        const inoutData = setTimeout(() => {
+                            dataName === "title" ?
+                                (
+                                    view.querySelector(".title").innerHTML = titleInput.value,
+                                    returnMessageArray[1] = titleInput.value,
+                                    this.inputMessage = returnMessageArray[2] === undefined ? returnMessageArray[1] : returnMessageArray[1] + returnMessageArray[2]
+                                ) : (
+                                    view.querySelector("p").innerHTML= mainInput.value,
+                                    returnMessageArray[2] = mainInput.value,
+                                    this.inputMessage = returnMessageArray[1] === undefined ? returnMessageArray[2] : returnMessageArray[1] + returnMessageArray[2]
+                                )
+                            clearTimeout(inoutData)
+                        }, 300)
+                    })
+                })
+
+                titleInput.addEventListener("change", () => {
+                    this.getByteLength(this.inputMessage, 0)
+                })
+
+                mainInput.addEventListener("change", () => {
+                    this.getByteLength(this.inputMessage, 0)
                 })
             },
-            mmsCheck : function (elem) {
-                data.type === "SMS" ?
-                elem.value.length > 50 ?
+            getByteLength : function( messages , blank ){
+                let type = "SMS"
+                let byte = 0;
+
+                if (blank == 0) {
+                    messages = messages.replace(/\s+/g,"");
+                }
+
+                for(let i=0; i<messages.length;i++) {
+                    if (/[ㄱ-ㅎㅏ-ㅣ가-힣一-龥ぁ-ゔァ-ヴー々〆〤]/.test(messages[i])) {
+                        byte += 2
+                    } else {
+                        byte++
+                    }
+
+                }
+
+                this.limitByte > byte ?
                     (
-                       alert("MMS"),
-                        data.type = "MMS",
-                        console.log(data)
+                        this.msgSizeElem.innerHTML = `${byte}/90 byte`,
+                        UI.messageType = "SMS"
+                    ) : (
+                        console.log("MMS"),
+                        this.msgSizeElem.innerHTML = `${byte}/2000 byte`,
+                        UI.messageType =  "MMS"
                     )
-                    : (
-                        alert("SMS"),
-                        data.type = "SMS",
-                        console.log(data)
-                    )
-                : false
+                this.notification(UI.messageType)
+
+            },
+            notification : function ( status ) {
+                const elem = document.querySelector(".notification-wrap");
+                status === "SMS" ? elem.innerHTML = "SMS" : elem.innerHTML = "MMS"
+                elem.classList.remove("is-ani")
+                const addAnimation = setTimeout(()=> {
+                    elem.classList.add("is-ani")
+                    clearTimeout(addAnimation)
+                }, 300)
+            },
+            insertCursor : function () {
+                const txtArea = document.getElementById('txtForm');
+                const txtValue = txtArea.value;
+                let selectPos = txtArea.selectionStart; // 커서 위치 지정
+                const beforeTxt = txtValue.substring(0, selectPos);  // 기존텍스트 ~ 커서시작점 까지의 문자
+                const afterTxt = txtValue.substring(txtArea.selectionEnd, txtValue.length);   // 커서끝지점 ~ 기존텍스트 까지의 문자
+                const addTxt = document.getElementById('addInput').value; // 추가 입력 할 텍스트
+
+                txtArea.value = beforeTxt + addTxt + afterTxt;
+
+                selectPos = selectPos + addTxt.length;
+                txtArea.selectionStart = selectPos; // 커서 시작점을 추가 삽입된 텍스트 이후로 지정
+                txtArea.selectionEnd = selectPos; // 커서 끝지점을 추가 삽입된 텍스트 이후로 지정
+                txtForm.focus();
+
             }
         },
     }
