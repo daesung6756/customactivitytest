@@ -17,96 +17,97 @@
 <body>
 <div class="wrap">
     <div class="send-wrap">
+        <form method="post" action="mailto:daesung.lee@dkbmc.com">
+            <div class="content-area">
+                <div class="view">
+                    <div class="phone-wrap">
+                        <div class="phone">
 
-        <div class="content-area">
-            <div class="view">
-                <div class="phone-wrap">
-                    <div class="phone">
-
-                        <div class="outer-btns">
-                            <span class="left-btn-01"></span>
-                            <span class="left-btn-02"></span>
-                            <span class="left-btn-03"></span>
-                            <span class="right-btn"></span>
-                        </div>
-                        <div class="phone-head">
-                            <div class="status-bar">
-                                <i class="icon icon-wifi"></i>
-                                <i class="icon icon-bluetooth"></i>
-                                <i class="icon icon-lte"></i>
-                                <i class="icon icon-lte-signal"></i>
-                                <i class="icon icon-battery"></i>
-                                <span class="camera"></span>
+                            <div class="outer-btns">
+                                <span class="left-btn-01"></span>
+                                <span class="left-btn-02"></span>
+                                <span class="left-btn-03"></span>
+                                <span class="right-btn"></span>
                             </div>
-                        </div>
-                        <div class="phone-body">
-                            <div class="chat-wrap">
-                                <div class="chat" >
-                                    <div class="msg" data-msg-view>
-                                        <span class="title"></span>
-                                        <p></p>
-                                    </div>
+                            <div class="phone-head">
+                                <div class="status-bar">
+                                    <i class="icon icon-wifi"></i>
+                                    <i class="icon icon-bluetooth"></i>
+                                    <i class="icon icon-lte"></i>
+                                    <i class="icon icon-lte-signal"></i>
+                                    <i class="icon icon-battery"></i>
+                                    <span class="camera"></span>
                                 </div>
                             </div>
-                            <div class="notification-wrap is-ani">SMS</div>
+                            <div class="phone-body">
+                                <div class="chat-wrap">
+                                    <div class="chat" >
+                                        <div class="msg" data-msg-view>
+                                            <span class="title"></span>
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="notification-wrap is-ani">SMS</div>
+                            </div>
                         </div>
-                    </div>
 
+                    </div>
+                </div>
+                <div class="form-wrap">
+                    <ul class="form-list">
+                        <li>
+                            <fieldset class="radio-group">
+                                <span class="radio box-type">
+                                    <input type="radio" id="sms" name="messageType" data-messagetype checked/>
+                                    <label for="sms">SMS</label>
+                                </span>
+                                <span class="radio box-type">
+                                    <input type="radio" id="kko" name="messageType" data-messagetype />
+                                    <label for="kko">Kakao</label>
+                                </span>
+                            </fieldset>
+                        </li>
+                        <li>
+                            <h3 class="title">제목 입력</h3>
+                            <fieldset class="message-input">
+                                <input type="text" class="input" placeholder="내용을 입력하세요." data-msg-input="title" />
+                            </fieldset>
+                        </li>
+                        <li>
+                            <h3 class="title">메세지 입력</h3>
+                            <fieldset class="message-input">
+                                <textarea class="input" placeholder="내용을 입력하세요." data-msg-input="main" id="txtForm"></textarea>
+                            </fieldset>
+                            <p data-msg-size class="text-size">0/90 byte</p>
+                            <ul style="display:none;">
+                                <li>SMS : 한글기준 45자(90byte) 내외의 단문 메시지</li>
+                                <li>LMS : 한글기준 1,000자(2,000byte) 내외의 장문 메시지</li>
+                                <li>MMS : 한글기준 1,000자(2,000byte) 내외의 장문과 이미지(JPG)를 포함한 메시지</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <h3 class="title">설문</h3>
+                            <p class="desc">* 아래 체크박스를 체크하시면 진행됩니다. 설문은 캠페인에서 설정하세요.</p>
+                            <fieldset class="checkbox-group">
+                                <input type="checkbox" id="survey" name="survey">
+                                <label for="survey">진행</label>
+                            </fieldset>
+                        </li>
+                        <li>
+                            <h3 class="title">코드 삽입</h3>
+                            <fieldset class="">
+                                <button type="button" onclick="UI.messageInputView.insertCursor(this)" data-insert-code="테스트입니다.">버튼</button>
+                            </fieldset>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <div class="form-wrap">
-                <ul class="form-list">
-                    <li>
-                        <fieldset class="radio-group">
-                            <span class="radio box-type">
-                                <input type="radio" id="sms" name="messageType" data-messagetype checked/>
-                                <label for="sms">SMS</label>
-                            </span>
-                            <span class="radio box-type">
-                                <input type="radio" id="kko" name="messageType" data-messagetype />
-                                <label for="kko">Kakao</label>
-                            </span>
-                        </fieldset>
-                    </li>
-                    <li>
-                        <h3 class="title">제목 입력</h3>
-                        <fieldset class="message-input">
-                            <input type="text" class="input" placeholder="내용을 입력하세요." data-msg-input="title" />
-                        </fieldset>
-                    </li>
-                    <li>
-                        <h3 class="title">메세지 입력</h3>
-                        <fieldset class="message-input">
-                            <textarea class="input" placeholder="내용을 입력하세요." data-msg-input="main"></textarea>
-                        </fieldset>
-                        <p data-msg-size class="text-size">0/90 byte</p>
-                        <ul>
-                            <li>SMS : 한글기준 45자(90byte) 내외의 단문 메시지</li>
-                            <li>LMS : 한글기준 1,000자(2,000byte) 내외의 장문 메시지</li>
-                            <li>MMS : 한글기준 1,000자(2,000byte) 내외의 장문과 이미지(JPG)를 포함한 메시지</li>
-                        </ul>
-                    </li>
-                    <li>
-                        <h3 class="title">설문</h3>
-                        <p class="desc">* 아래 체크박스를 체크하시면 진행됩니다. 설문은 캠페인에서 설정하세요.</p>
-                        <fieldset class="checkbox-group">
-                            <input type="checkbox" id="survey" name="survey">
-                            <label for="survey">진행</label>
-                        </fieldset>
-                    </li>
-                    <li>
-                        <h3 class="title">선택</h3>
-                        <fieldset class="">
-                            <button type="button" onclick=""></button>
-                        </fieldset>
-                    </li>
-                </ul>
-            </div>
-        </div>
 
-        <div class="btn-area">
-            <button type="submit">전송</button>
-        </div>
+            <div class="btn-area">
+                <button type="submit" onclick="UI.submitEvent()">전송</button>
+            </div>
+        </form>
 
     </div>
 </div>
@@ -157,7 +158,6 @@
         },
         messageInputView: {
             name: 'UI > input message view',
-
             items : document.querySelectorAll(`[data-msg-input]`),
             msgSizeElem : document.querySelector(`[data-msg-size]`),
             inputMessage : "",
@@ -251,23 +251,26 @@
                     clearTimeout(addAnimation)
                 }, 300)
             },
-            insertCursor : function () {
+            insertCursor : function (  ) {
                 const txtArea = document.getElementById('txtForm');
                 const txtValue = txtArea.value;
                 let selectPos = txtArea.selectionStart; // 커서 위치 지정
                 const beforeTxt = txtValue.substring(0, selectPos);  // 기존텍스트 ~ 커서시작점 까지의 문자
                 const afterTxt = txtValue.substring(txtArea.selectionEnd, txtValue.length);   // 커서끝지점 ~ 기존텍스트 까지의 문자
-                const addTxt = document.getElementById('addInput').value; // 추가 입력 할 텍스트
+                const addTxt = elem.dataset.pcode; // 추가 입력 할 텍스트
 
                 txtArea.value = beforeTxt + addTxt + afterTxt;
 
                 selectPos = selectPos + addTxt.length;
                 txtArea.selectionStart = selectPos; // 커서 시작점을 추가 삽입된 텍스트 이후로 지정
                 txtArea.selectionEnd = selectPos; // 커서 끝지점을 추가 삽입된 텍스트 이후로 지정
-                txtForm.focus();
-
+                txtArea.focus();
             }
         },
+        submitEvent : function (e) {
+            e.preventDefault();
+            console.log("전송 목록 정리 ")
+        }
     }
 
     //UI Run
