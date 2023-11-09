@@ -1,7 +1,12 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@100;200;300;400;500;600;700;800&display=swap');
+
 /* reset */
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {margin: 0;padding: 0;border: 0;font-size: 100%;font: inherit;vertical-align: baseline;}  /* HTML5 display-role reset for older browsers */  article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {display: block;}  body {line-height: 1;}  ol, ul {list-style: none;}  blockquote, q {quotes: none;}  blockquote:before, blockquote:after, q:before, q:after {content: '';content: none;}  table {border-collapse: collapse;border-spacing: 0;}
 body {
     color:#333;
+    font-family:'Noto Sans KR', sans-serif;
+    font-weight: 400;
 }
 * {
     box-sizing: border-box;
@@ -39,17 +44,17 @@ button {cursor:pointer;}
 .send-wrap .btn-area button {min-width:120px;background:#006fa6;color:#fff;border:0;height:40px;border-radius:5px;font-weight:700;}
 
 .icon {display:inline-block;width:10px;height:10px;background-position:center center;background-size:contain;background-repeat:no-repeat;}
-.icon-battery{background-image:url(https://cunning-otter-jr7g2b-dev-ed.trailblaze.file.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Png&versionId=0685j00000HNLO4&operationContext=CHATTER&contentId=05T5j00000jQHF2);}
-.icon-wifi{background-image:url(https://cunning-otter-jr7g2b-dev-ed.trailblaze.file.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Png&versionId=0685j00000HNK70&operationContext=CHATTER&contentId=05T5j00000jQCsU) ;}
-.icon-bluetooth{background-image:url(https://cunning-otter-jr7g2b-dev-ed.trailblaze.file.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Png&versionId=0685j00000HNK6z&operationContext=CHATTER&contentId=05T5j00000jQDk6);}
-.icon-lte{background-image:url(https://cunning-otter-jr7g2b-dev-ed.trailblaze.file.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Png&versionId=0685j00000HNK6u&operationContext=CHATTER&contentId=05T5j00000jQDjw);}
-.icon-lte-signal {background-image:url(https://cunning-otter-jr7g2b-dev-ed.trailblaze.file.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Png&versionId=0685j00000HNK6v&operationContext=CHATTER&contentId=05T5j00000jQDk1);}
+.icon-battery{background-image:url("/images/battery-status.png");}
+.icon-wifi{background-image:url("/images/wifi.png") ;}
+.icon-bluetooth{background-image:url("/images/bluetooth.png");}
+.icon-lte{background-image:url("/images/lte.png");}
+.icon-lte-signal {background-image:url("/images/lte-signal.png");}
 
 /* view */
-.phone-wrap {position:relative;padding:20px;background:#fff;}
+.phone-wrap {position:relative;padding:20px;background:#fff;height:100%}
 .phone-wrap * {-webkit-box-sizing:border-box;box-sizing:border-box;}
 .phone-wrap .title {font-size:20px;line-height:26px;font-weight:700;margin-bottom:10px;}
-.phone-wrap .phone {position:relative;padding:10px;border-radius:20px;background: rgb(0,0,0);background: -o-linear-gradient(148deg, rgba(0,0,0,1) 0%, rgba(53,53,59,1) 48%, rgba(0,0,0,1) 100%);background: linear-gradient(302deg, rgba(0,0,0,1) 0%, rgba(53,53,59,1) 48%, rgba(0,0,0,1) 100%);;-webkit-box-shadow:4px 4px 4px rgba(0,0,0,.3);box-shadow:4px 4px 4px rgba(0,0,0,.3);max-width:300px;margin:0 auto;}
+.phone-wrap .phone {position:relative;padding:10px;border-radius:20px;background: rgb(0,0,0);background: -o-linear-gradient(148deg, rgba(0,0,0,1) 0%, rgba(53,53,59,1) 48%, rgba(0,0,0,1) 100%);background: linear-gradient(302deg, rgba(0,0,0,1) 0%, rgba(53,53,59,1) 48%, rgba(0,0,0,1) 100%);;-webkit-box-shadow:4px 4px 4px rgba(0,0,0,.3);box-shadow:4px 4px 4px rgba(0,0,0,.3);max-width:300px;margin:0 auto;height:100%;}
 .phone-wrap .phone .outer-btns .left-btn-01,
 .phone-wrap .phone .outer-btns .left-btn-02,
 .phone-wrap .phone .outer-btns .left-btn-03,
@@ -65,12 +70,15 @@ button {cursor:pointer;}
 .phone-wrap .phone-head .camera::before,
 .phone-wrap .phone-head .camera::after {content:"";width:8px;height:8px;background:#333;border-radius:50%;font-size:0;line-height:1;}
 
-.phone-wrap .phone-body {position:relative;background:#A8C0D6;height:450px;overflow:hidden;overflow-y:auto;padding:20px;border-radius:0 0 10px 10px;transition: background .3s ease-in-out}
+.phone-wrap .phone-body {position:relative;background:#A8C0D6;height:calc(100% - 70px);overflow:hidden;overflow-y:auto;padding:20px;border-radius:0 0 10px 10px;transition: background .3s ease-in-out}
 .phone-wrap .phone-body::-webkit-scrollbar {width: 8px;height: 8px;background-color: transparent;}
 .phone-wrap .phone-body::-webkit-scrollbar-thumb {background:rgba(0,0,0,.1);border-radius:10px;}
 .phone-wrap .phone-body .notification-wrap {position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);padding:10px;border-radius:10px;background:#00a61c;color:#fff;font-size:14px;font-weight:700;line-height:1;opacity:1;z-index:1;}
 .phone-wrap .phone-body .notification-wrap.is-ani {animation: twinkling 5s forwards ease-in-out}
 .phone-wrap .phone-body .notification-wrap.is-hide {opacity:0;z-index:-1;}
+
+.phone-wrap .phone-foot {position:relative;height:40px;}
+.phone-wrap .phone-foot::before {content:"";position:absolute;top:50%;left: 50%;transform: translate(-50%,-50%);width:24px;height:24px;border-radius:50%;background:#333;}
 
 .phone-wrap .chat-wrap .chat {display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;gap:20px;padding:10px 0;}
 .phone-wrap .chat-wrap .chat .msg {position:relative;width:100%;color:#000;background:#fff;padding:8px;font-size:0;line-height:1;border-radius:10px;}
@@ -124,4 +132,5 @@ button {cursor:pointer;}
     .send-wrap .content-area .form-wrap {width:100%;}
 
     .phone-wrap .phone-body {height:220px}
+    .phone-wrap .phone-foot {display:none;}
 }
