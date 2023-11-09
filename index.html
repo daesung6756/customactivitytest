@@ -78,13 +78,13 @@
                             </fieldset>
                         </li>
                         <li>
-                            <h3 class="title">- 제목 입력</h3>
+                            <h3 class="title">- 제목</h3>
                             <fieldset class="text-field">
                                 <input type="text" class="input" placeholder="내용을 입력하세요." onkeyup="inputValueViewWrite(this)"/>
                             </fieldset>
                         </li>
                         <li>
-                            <h3 class="title">- 메세지 입력</h3>
+                            <h3 class="title">- 메세지</h3>
                             <fieldset class="text-field">
                                 <textarea class="input" placeholder="내용을 입력하세요." onkeyup="inputValueViewWrite(this)" data-insert-textarea></textarea>
                             </fieldset>
@@ -96,36 +96,41 @@
                             </ul>
                         </li>
                         <li>
-                            <h3 class="title">- 설문</h3>
+                            <h3 class="title" data-toggle="surveyStatus">- 설문</h3>
                             <p class="desc">* 아래 체크박스를 체크하시면 진행됩니다. 설문은 캠페인에서 설정하세요.</p>
-                            <fieldset class="checkbox-group">
-                                <input type="checkbox" id="survey" name="survey" onchange="singleCheckboxReturn(this)">
-                                <label for="survey">진행</label>
-                            </fieldset>
+                            <div data-toggle-panel="surveyStatus">
+                                <fieldset class="checkbox-group">
+                                    <input type="checkbox" id="survey" name="survey" onchange="singleCheckboxReturn(this)">
+                                    <label for="survey">진행</label>
+                                </fieldset>
+                            </div>
                         </li>
                         <li>
-                            <h3 class="title">- 코드 삽입</h3>
+                            <h3 class="title" data-toggle="codeInput">- 코드 삽입</h3>
                             <p class="desc">* 메세지 창에 원하는 위치에 마우스 클릭하시면 해당 위치로 등록됩니다.</p>
-                            <fieldset class="button-field">
-                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다.">버튼</button>
-                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다2.">버튼</button>
-                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
-                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
-                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
-                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
-                            </fieldset>
+                            <div data-toggle-panel="codeInput">
+                                <fieldset class="button-field">
+                                    <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다.">버튼</button>
+                                    <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다2.">버튼</button>
+                                    <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
+                                    <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
+                                    <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
+                                    <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
+                                </fieldset>
+                            </div>
                         </li>
                         <li>
-                            <h3 class="title">- 이미지 업로드</h3>
+                            <h3 class="title" data-toggle="imgUpload">- 이미지 업로드</h3>
                             <p class="desc in-padding-right">* 이미지 크키는 MMS기준 (5MB)를 초과하실 수 없습니다.<span id="imageFileSize">0 / 1MB</span></p>
-                            <fieldset class="file-field">
-                                <label for="imageFile">파일찾기</label>
-                                <input type="file" id="imageFile" onchange="addImageToList(this)" />
-                                <div class="image-list">
-                                    <p>파일을 선택하세요.</p>
-                                </div>
-                            </fieldset>
-                            <!--<button type="button" onclick="fileInputReset()">Reset</button>-->
+                            <div data-toggle-panel="imgUpload">
+                                <fieldset class="file-field">
+                                    <label for="imageFile">파일찾기</label>
+                                    <input type="file" id="imageFile" onchange="addImageToList(this)" />
+                                    <div class="image-list">
+                                        <p>파일을 선택하세요.</p>
+                                    </div>
+                                </fieldset>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -368,7 +373,8 @@
     const UI = {
         init : function () {
             this.messageTypeSelect.init();
-            this.messageInputView.init()
+            this.messageInputView.init();
+            this.toggles.init();
         },
         messageTypeSelect : {
             name: "UI > Message type Radio",
@@ -427,6 +433,33 @@
                     clearTimeout(addAnimation)
                 }, 300)
             },
+        },
+        toggles : {
+            items: document.querySelectorAll("[data-toggle]"),
+            itemArray : [],
+            init : function () {
+                this.items.length > 0 ?
+                    this.dataCollection()
+                    : false
+            },
+            dataCollection: function () {
+                this.items.forEach((item) => {
+                    this.itemArray.indexOf(item.dataset.toggle) === -1 ?
+                        this.itemArray.push(item.dataset.toggle) : false
+                })
+                this.events()
+            },
+            events: function() {
+                this.itemArray.forEach((dataName) => {
+                    const action = document.querySelector(`[data-toggle=${dataName}]`)
+                    const panel = document.querySelector(`[data-toggle-panel=${dataName}]`)
+
+                    action.addEventListener("click", () => {
+                        action.classList.toggle('is-active')
+                        panel.classList.toggle("is-show")
+                    })
+                })
+            }
         }
     }
 

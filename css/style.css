@@ -40,13 +40,19 @@ button {cursor:pointer;}
 .send-wrap .form-wrap .form-list li {padding:5px 0;}
 .send-wrap .form-wrap .form-list li + li {border-top:1px dotted #ddd;}
 .send-wrap .form-wrap .form-list .title {position:relative;padding:4px 0;font-size:14px;line-height:20px;font-weight:700;z-index:1;}
-.send-wrap .form-wrap .form-list .title::before {content:"";position:absolute;left:0;bottom:8px;width:100%;height:4px;background:#efefef;z-index:-1;}
+.send-wrap .form-wrap .form-list .title::before {content:"";position:absolute;left:0;bottom:8px;width:50%;height:4px;background:#efefef;z-index:-1;}
 .send-wrap .form-wrap .form-list .in-padding-right {position:relative;padding-right:90px;}
 .send-wrap .form-wrap .form-list .in-padding-right > span {position:absolute;top:50%;right:0;color:#000000;-webkit-transform: translateY(-50%);-ms-transform: translateY(-50%);transform: translateY(-50%)}
 .send-wrap .form-wrap .form-list .title + .desc {padding:4px 0;font-size:12px;line-height:18px;color:#666;}
 .send-wrap .form-wrap .form-list .desc + fieldset {margin-top:5px;}
 .send-wrap .btn-area {text-align:right;padding:10px 20px;}
 .send-wrap .btn-area button {min-width:120px;background:#006fa6;color:#fff;border:0;height:40px;border-radius:5px;font-weight:700;}
+
+.send-wrap .form-wrap .form-list .title[data-toggle] {cursor:pointer;}
+.send-wrap .form-wrap .form-list .title[data-toggle]::after {content:"";position:absolute;top:50%;right:10px;transform:translateY(-50%);border-top:7px solid #000;border-left:5px solid transparent;border-right:5px solid transparent;transition: transform .2s linear}
+.send-wrap .form-wrap .form-list .title[data-toggle].is-active::after {transform: translateY(-50%) rotate(180deg);transition: transform .2s linear}
+.send-wrap .form-wrap [data-toggle-panel] {display:none;}
+.send-wrap .form-wrap [data-toggle-panel].is-show {display:block;}
 
 .icon {display:inline-block;width:10px;height:10px;background-position:center center;background-size:contain;background-repeat:no-repeat;}
 .icon-battery{background-image:url("/images/battery-status.png");}
