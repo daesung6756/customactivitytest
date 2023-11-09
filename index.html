@@ -10,30 +10,16 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript">
         let sendData = {
-            dataType : "SMS",
-            totalSizeByte: 162,
-            messageSizeByte : 87,
-            imageSize : "",
-            messages : "",
-            imageName : "",
-            imageSrc : "",
+            messageType : null,
+            messageTitle: null,
+            messageContent: null,
+            totalSizeByte: null,
+            messageSizeByte : null,
+            imageSize : null,
+            imageName : null,
+            imageSrc : null,
+            survey: false,
         }
-
-        const postData = () => {
-            // POST 요청을 보내는 함수
-            axios.post('http://localhost:9090/test', sendData)
-                .then(function (response) {
-                    // 응답을 성공적으로 받으면 여기 코드 실행
-                    console.log(response.data);
-                    alert('POST 전송성공');
-                })
-                .catch(function (error) {
-                    // 에러가 발생하면 여기 코드 실행
-                    console.error(error);
-                    alert('POST 전송실패');
-                });
-        };
-
     </script>
 </head>
 <body>
@@ -115,7 +101,7 @@
                             <h3 class="title">- 설문</h3>
                             <p class="desc">* 아래 체크박스를 체크하시면 진행됩니다. 설문은 캠페인에서 설정하세요.</p>
                             <fieldset class="checkbox-group">
-                                <input type="checkbox" id="survey" name="survey">
+                                <input type="checkbox" id="survey" name="survey" onchange="singleCheckboxReturn(this)">
                                 <label for="survey">진행</label>
                             </fieldset>
                         </li>
@@ -125,19 +111,6 @@
                             <fieldset class="button-field">
                                 <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다.">버튼</button>
                                 <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다2.">버튼</button>
-                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
-                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
-                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
-                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
-                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
-                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
-                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
-                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
-                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
-                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
-                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
-                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
-                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
                                 <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
                                 <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
                                 <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
@@ -159,7 +132,7 @@
             </div>
 
             <div class="btn-area">
-                <button type="submit" onclick="postData()">전송</button>
+                <button type="submit" onclick="postData()">저장</button>
             </div>
         </form>
 
@@ -170,12 +143,17 @@
 <script type="text/javascript" src="customActivity.js"></script>
 <script type="text/javascript">
 
+    let messageType = null
+    let imageName = null
+    let imageSrc = null
+    let imageSize = null
+    let surveyStatus = null
     let returnMessage = []
 
     function inputValueViewWrite(elem) {
         const $title = document.querySelector("[data-view-title]");
         const $content = document.querySelector("[data-view-content]");
-        const $value = elem.value;
+        let $value = elem.value;
 
         const eventOneRequest = setTimeout(() => {
             elem.nodeName === "INPUT" ?
@@ -184,22 +162,22 @@
                     $title.innerHTML = returnMessage[1]
 
                 ) : (
-                    returnMessage[2] = $value,
-                    $content.innerHTML = returnMessage[2]
+                    returnMessage[2] = $value.replaceAll("/\r\n|\r|\n/", "<br/>"),
+                    $content.innerHTML = returnMessage[2].replaceAll("<br/>","/\r\n|\r|\n/")
                 )
 
             getByteLength(returnMessage, 0)
 
-            sendData.messages =
-                returnMessage[1] === undefined || returnMessage[2] === undefined ?
-                    returnMessage[1] || returnMessage[2] :
-                    returnMessage[1] + returnMessage[2]
-
-            console.log(sendData)
             clearTimeout(eventOneRequest)
         }, 300)
     }
 
+    function singleCheckboxReturn( elem ) {
+        const checkbox = elem;
+        return survey = checkbox.checked
+    }
+
+    // 포커스에 컨텐츠 삽입
     function insertCursorOffset( button ) {
         const $textarea = document.querySelector("[data-insert-textarea]");
         const $value = $textarea.value;
@@ -219,11 +197,8 @@
         $textarea.selectionStart = cursorStart; // 커서 시작점을 추가 삽입된 텍스트 이후로 지정
         $textarea.selectionEnd = cursorStart; // 커서 끝지점을 추가 삽입된 텍스트 이후로 지정
         $textarea.focus();
-
-        sendData.messages = returnMessage
-        console.log(sendData)
     }
-
+    // 메세지 용량 계산
     function getByteLength ( messages , blank ){
         const elementView = document.querySelector("[data-view-size]")
         let byte = 0;
@@ -261,8 +236,8 @@
 
         newImage.src = URL.createObjectURL(file)
 
-        sendData.imageName = file.name
-        sendData.imageSrc = URL.createObjectURL(file)
+        imageName = file.name
+        imageSrc = URL.createObjectURL(file)
 
         view.appendChild(newImage)
 
@@ -272,7 +247,6 @@
             if (size < 1024) return sizeView.innerHTML = `${size.toFixed(1)} ${byteUnits[i]}/ 5MB`;
             size < sizeLimit ? alert("사용 용량을 초과하셨습니다.") : false
         }
-        console.log(sendData)
     }
 
     function fileInputReset () {
@@ -305,8 +279,10 @@
                 this.items.forEach((radio) => {
                     radio.checked === true ?
                         radio.id === "sms" || radio.id === "kko" ?
-                            _this.phoneElement.classList.add(radio.id)
-                            : _this.phoneElement.classList.remove(radio.id)
+                            (
+                                sendData.messageType = "SMS" || "KKO",
+                                _this.phoneElement.classList.add(radio.id)
+                            ) : _this.phoneElement.classList.remove(radio.id)
                         : false
 
                     radio.addEventListener("click", () => {
@@ -314,11 +290,13 @@
                             (
                                 _this.phoneElement.classList.remove("kko"),
                                     _this.phoneElement.classList.add("sms"),
-                                    elem.classList.remove("is-hide")
+                                    elem.classList.remove("is-hide"),
+                                    sendData.messageType = "SMS"
                             ) : (
                                 _this.phoneElement.classList.remove("sms"),
                                     _this.phoneElement.classList.add("kko"),
-                                    elem.classList.add("is-hide")
+                                    elem.classList.add("is-hide"),
+                                    sendData.messageType = "KKO"
                             )
 
                     })
@@ -348,6 +326,32 @@
 
     //UI Run
     UI.init()
+
+    async function postData (){
+        sendData = {
+            messageType : messageType,
+            messageTitle: returnMessage[1],
+            messageContent: returnMessage[2],
+            totalSizeByte: null,
+            messageSizeByte : null,
+            imageSize : imageSize,
+            imageName : imageName,
+            imageSrc : imageSrc,
+            survey: surveyStatus,
+        }
+
+        // POST 요청을 보내는 함수
+        const url = 'http://localhost:9090/test';
+        axios.post(url, sendData)
+            .then(function (response) {
+                console.log(response.data);
+                alert('POST 전송성공');
+            })
+            .catch(function (error) {
+                console.error(error);
+                alert('POST 전송실패');
+            });
+    }
 </script>
 </body>
 </html>
