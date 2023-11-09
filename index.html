@@ -7,17 +7,39 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>SMS / Kakaotalk / Survey</title>
     <link rel="stylesheet" href="css/style.css" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript">
-        let data = {
-            dataType: "SMS",
-            b: "",
+        let sendData = {
+            dataType : "SMS",
+            totalSizeByte: 162,
+            messageSizeByte : 87,
+            imageSize : "",
+            messages : "",
+            imageName : "",
+            imageSrc : "",
         }
+
+        const postData = () => {
+            // POST 요청을 보내는 함수
+            axios.post('http://localhost:9090/test', sendData)
+                .then(function (response) {
+                    // 응답을 성공적으로 받으면 여기 코드 실행
+                    console.log(response.data);
+                    alert('POST 전송성공');
+                })
+                .catch(function (error) {
+                    // 에러가 발생하면 여기 코드 실행
+                    console.error(error);
+                    alert('POST 전송실패');
+                });
+        };
+
     </script>
 </head>
 <body>
 <div class="wrap">
     <div class="send-wrap">
-        <form method="post" action="mailto:daesung.lee@dkbmc.com">
+        <form>
             <div class="content-area">
                 <div class="view">
                     <div class="phone-wrap">
@@ -42,9 +64,9 @@
                             <div class="phone-body">
                                 <div class="chat-wrap">
                                     <div class="chat" >
-                                        <div class="msg" data-msg-view>
-                                            <span class="title"></span>
-                                            <p></p>
+                                        <div class="msg">
+                                            <span class="title" data-view-title></span>
+                                            <p data-view-content></p>
                                         </div>
                                     </div>
                                 </div>
@@ -57,7 +79,7 @@
                 <div class="form-wrap">
                     <ul class="form-list">
                         <li>
-                            <fieldset class="radio-group">
+                            <fieldset class="radio-field">
                                 <span class="radio box-type">
                                     <input type="radio" id="sms" name="messageType" data-messagetype checked/>
                                     <label for="sms">SMS</label>
@@ -69,17 +91,17 @@
                             </fieldset>
                         </li>
                         <li>
-                            <h3 class="title">제목 입력</h3>
-                            <fieldset class="message-input">
-                                <input type="text" class="input" placeholder="내용을 입력하세요." data-msg-input="title" />
+                            <h3 class="title">- 제목 입력</h3>
+                            <fieldset class="text-field">
+                                <input type="text" class="input" placeholder="내용을 입력하세요." onkeyup="inputValueViewWrite(this)"/>
                             </fieldset>
                         </li>
                         <li>
-                            <h3 class="title">메세지 입력</h3>
-                            <fieldset class="message-input">
-                                <textarea class="input" placeholder="내용을 입력하세요." data-msg-input="main" id="txtForm"></textarea>
+                            <h3 class="title">- 메세지 입력</h3>
+                            <fieldset class="text-field">
+                                <textarea class="input" placeholder="내용을 입력하세요." onkeyup="inputValueViewWrite(this)" data-insert-textarea></textarea>
                             </fieldset>
-                            <p data-msg-size class="text-size">0/90 byte</p>
+                            <p data-view-size class="text-size">0/90 byte</p>
                             <ul style="display:none;">
                                 <li>SMS : 한글기준 45자(90byte) 내외의 단문 메시지</li>
                                 <li>LMS : 한글기준 1,000자(2,000byte) 내외의 장문 메시지</li>
@@ -87,7 +109,7 @@
                             </ul>
                         </li>
                         <li>
-                            <h3 class="title">설문</h3>
+                            <h3 class="title">- 설문</h3>
                             <p class="desc">* 아래 체크박스를 체크하시면 진행됩니다. 설문은 캠페인에서 설정하세요.</p>
                             <fieldset class="checkbox-group">
                                 <input type="checkbox" id="survey" name="survey">
@@ -95,17 +117,46 @@
                             </fieldset>
                         </li>
                         <li>
-                            <h3 class="title">코드 삽입</h3>
-                            <fieldset class="">
-                                <button type="button" onclick="UI.messageInputView.insertCursor(this)" data-insert-code="테스트입니다.">버튼</button>
+                            <h3 class="title">- 코드 삽입</h3>
+                            <p class="desc">* 메세지 창에 원하는 위치에 마우스 클릭하시면 해당 위치로 등록됩니다.</p>
+                            <fieldset class="button-field">
+                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다.">버튼</button>
+                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다2.">버튼</button>
+                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
+                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
+                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
+                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
+                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
+                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
+                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
+                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
+                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
+                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
+                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
+                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
+                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
+                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
+                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
+                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
+                                <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
                             </fieldset>
+                        </li>
+                        <li>
+                            <h3 class="title">- 이미지 업로드</h3>
+                            <p class="desc in-padding-right">* 이미지 크키는 5MB를 초과하실 수 없습니다.<span id="imageFileSize">0 / 5MB</span></p>
+                            <fieldset class="file-field">
+                                <input type="text" id="imageFileName" placeholder="파일을 선택하세요." readonly/>
+                                <label for="imageFile">파일찾기</label>
+                                <input type="file" id="imageFile" onchange="fileSize(this)" />
+                            </fieldset>
+                            <!--<button type="button" onclick="fileInputReset()">Reset</button>-->
                         </li>
                     </ul>
                 </div>
             </div>
 
             <div class="btn-area">
-                <button type="submit" onclick="UI.submitEvent()">전송</button>
+                <button type="submit" onclick="postData()">전송</button>
             </div>
         </form>
 
@@ -115,8 +166,123 @@
 <script type="text/javascript" src="js/postmonger.js"></script>
 <script type="text/javascript" src="customActivity.js"></script>
 <script type="text/javascript">
+
+    let returnMessage = []
+
+    function inputValueViewWrite(elem) {
+        const $title = document.querySelector("[data-view-title]");
+        const $content = document.querySelector("[data-view-content]");
+        const $value = elem.value;
+
+        const eventOneRequest = setTimeout(() => {
+            elem.nodeName === "INPUT" ?
+                (
+                    returnMessage[1] = $value,
+                    $title.innerHTML = returnMessage[1]
+
+                ) : (
+                    returnMessage[2] = $value,
+                    $content.innerHTML = returnMessage[2]
+                )
+
+            getByteLength(returnMessage, 0)
+
+            sendData.messages =
+                returnMessage[1] === undefined || returnMessage[2] === undefined ?
+                    returnMessage[1] || returnMessage[2] :
+                    returnMessage[1] + returnMessage[2]
+
+            console.log(sendData)
+            clearTimeout(eventOneRequest)
+        }, 300)
+    }
+
+    function insertCursorOffset( button ) {
+        const $textarea = document.querySelector("[data-insert-textarea]");
+        const $value = $textarea.value;
+        const $addValue = button.dataset.propsCode;
+
+        let cursorStart = $textarea.selectionStart;
+        let cursorEnd = $textarea.selectionEnd;
+
+        const positionBefore = $value.substring(0, cursorStart);  // 기존텍스트 ~ 커서시작점 까지의 문자
+        const positionAfter = $value.substring(cursorEnd, $value.length);   // 커서끝지점 ~ 기존텍스트 까지의 문자
+
+        $textarea.value = positionBefore + $addValue + positionAfter;
+
+        inputValueViewWrite($textarea, "[data-view-content]")
+
+        cursorStart = cursorStart + $addValue ;
+        $textarea.selectionStart = cursorStart; // 커서 시작점을 추가 삽입된 텍스트 이후로 지정
+        $textarea.selectionEnd = cursorStart; // 커서 끝지점을 추가 삽입된 텍스트 이후로 지정
+        $textarea.focus();
+
+        sendData.messages = returnMessage
+        console.log(sendData)
+    }
+
+    function getByteLength ( messages , blank ){
+        const elementView = document.querySelector("[data-view-size]")
+        let byte = 0;
+        const reg = /[ㄱ-ㅎㅏ-ㅣ가-힣一-龥ぁ-ゔァ-ヴー々〆〤]/;
+
+        messages.forEach((msg) => {
+            if (blank === 0) {
+                msg = msg.replace(/\s+/g,"");
+            }
+
+            for( let i=0; i < msg.length;i++) {
+                if (reg.test(msg[i])) {
+                    byte += 2
+                } else {
+                    byte++
+                }
+            }
+            elementView.innerHTML = `${byte} byte /90 byte`
+        })
+
+    }
+
+    function fileSize ( elem ) {
+        const byteUnits = ["kb", "mb", "gb", "tb"];
+        const sizeLimit = 5 * 1024 * 1024; //5mb 사용 제한
+        const file = elem.files[0];
+        const nameView = document.getElementById("imageFileName")
+        const sizeView = document.getElementById("imageFileSize")
+        const newImage = document.createElement("img");
+        const view = document.querySelector("[data-view-content]");
+
+        let size = file.size;
+
+        nameView.value = file.name
+
+        newImage.src = URL.createObjectURL(file)
+
+        sendData.imageName = file.name
+        sendData.imageSrc = URL.createObjectURL(file)
+
+        view.appendChild(newImage)
+
+        for (let i = 0; i < byteUnits.length; i++) {
+            size = Math.floor(size / 1024);
+
+            if (size < 1024) return sizeView.innerHTML = `${size.toFixed(1)} ${byteUnits[i]}/ 5MB`;
+            size < sizeLimit ? alert("사용 용량을 초과하셨습니다.") : false
+        }
+        console.log(sendData)
+    }
+
+    function fileInputReset () {
+        const fileInput = document.getElementById("imageFile")
+        const nameView = document.getElementById("imageFileName")
+        const sizeView = document.getElementById("imageFileSize")
+        console.log("리셋")
+        fileInput.value = null
+        nameView.value = null
+        sizeView.innerHTML =  "0 / 5MB"
+    }
+
     const UI = {
-        messageType : "SMS" || "MMS" || "KKO",
         init : function () {
             this.messageTypeSelect.init();
             this.messageInputView.init()
@@ -136,20 +302,20 @@
                 this.items.forEach((radio) => {
                     radio.checked === true ?
                         radio.id === "sms" || radio.id === "kko" ?
-                        _this.phoneElement.classList.add(radio.id)
-                        : _this.phoneElement.classList.remove(radio.id)
-                    : false
+                            _this.phoneElement.classList.add(radio.id)
+                            : _this.phoneElement.classList.remove(radio.id)
+                        : false
 
                     radio.addEventListener("click", () => {
                         radio.id === "sms" ?
                             (
                                 _this.phoneElement.classList.remove("kko"),
-                                _this.phoneElement.classList.add("sms"),
-                                elem.classList.remove("is-hide")
+                                    _this.phoneElement.classList.add("sms"),
+                                    elem.classList.remove("is-hide")
                             ) : (
                                 _this.phoneElement.classList.remove("sms"),
-                                _this.phoneElement.classList.add("kko"),
-                                elem.classList.add("is-hide")
+                                    _this.phoneElement.classList.add("kko"),
+                                    elem.classList.add("is-hide")
                             )
 
                     })
@@ -158,88 +324,11 @@
         },
         messageInputView: {
             name: 'UI > input message view',
-            items : document.querySelectorAll(`[data-msg-input]`),
-            msgSizeElem : document.querySelector(`[data-msg-size]`),
-            inputMessage : "",
-            itemArray : [],
             limitByte : 90,
             init : function () {
-                this.items.length > 0 ?
-                    this.dataDecoration()
-
-                    : console.log(`${this.name} data가 없습니다.`)
-
-            },
-            dataDecoration: function () {
-                this.items.forEach((item) => {
-                    this.itemArray.indexOf(item.dataset.msgInput) === -1 ?
-                        this.itemArray.push(item.dataset.msgInput) :
-                        false
-                })
                 this.events()
             },
             events: function () {
-                const _this = this
-                const view = document.querySelector(`[data-msg-view]`)
-                const titleInput = document.querySelector("[data-msg-input='title']")
-                const mainInput = document.querySelector("[data-msg-input='main']")
-                let returnMessageArray = [];
-
-                this.itemArray.forEach((dataName) => {
-                    const input = document.querySelector(`[data-msg-input=${dataName}]`)
-
-                    input.addEventListener("keyup", () => {
-                        const inoutData = setTimeout(() => {
-                            dataName === "title" ?
-                                (
-                                    view.querySelector(".title").innerHTML = titleInput.value,
-                                    returnMessageArray[1] = titleInput.value,
-                                    this.inputMessage = returnMessageArray[2] === undefined ? returnMessageArray[1] : returnMessageArray[1] + returnMessageArray[2]
-                                ) : (
-                                    view.querySelector("p").innerHTML= mainInput.value,
-                                    returnMessageArray[2] = mainInput.value,
-                                    this.inputMessage = returnMessageArray[1] === undefined ? returnMessageArray[2] : returnMessageArray[1] + returnMessageArray[2]
-                                )
-                            clearTimeout(inoutData)
-                        }, 300)
-                    })
-                })
-
-                titleInput.addEventListener("change", () => {
-                    this.getByteLength(this.inputMessage, 0)
-                })
-
-                mainInput.addEventListener("change", () => {
-                    this.getByteLength(this.inputMessage, 0)
-                })
-            },
-            getByteLength : function( messages , blank ){
-                let type = "SMS"
-                let byte = 0;
-
-                if (blank == 0) {
-                    messages = messages.replace(/\s+/g,"");
-                }
-
-                for(let i=0; i<messages.length;i++) {
-                    if (/[ㄱ-ㅎㅏ-ㅣ가-힣一-龥ぁ-ゔァ-ヴー々〆〤]/.test(messages[i])) {
-                        byte += 2
-                    } else {
-                        byte++
-                    }
-
-                }
-
-                this.limitByte > byte ?
-                    (
-                        this.msgSizeElem.innerHTML = `${byte}/90 byte`,
-                        UI.messageType = "SMS"
-                    ) : (
-                        console.log("MMS"),
-                        this.msgSizeElem.innerHTML = `${byte}/2000 byte`,
-                        UI.messageType =  "MMS"
-                    )
-                this.notification(UI.messageType)
 
             },
             notification : function ( status ) {
@@ -251,25 +340,6 @@
                     clearTimeout(addAnimation)
                 }, 300)
             },
-            insertCursor : function (  ) {
-                const txtArea = document.getElementById('txtForm');
-                const txtValue = txtArea.value;
-                let selectPos = txtArea.selectionStart; // 커서 위치 지정
-                const beforeTxt = txtValue.substring(0, selectPos);  // 기존텍스트 ~ 커서시작점 까지의 문자
-                const afterTxt = txtValue.substring(txtArea.selectionEnd, txtValue.length);   // 커서끝지점 ~ 기존텍스트 까지의 문자
-                const addTxt = elem.dataset.pcode; // 추가 입력 할 텍스트
-
-                txtArea.value = beforeTxt + addTxt + afterTxt;
-
-                selectPos = selectPos + addTxt.length;
-                txtArea.selectionStart = selectPos; // 커서 시작점을 추가 삽입된 텍스트 이후로 지정
-                txtArea.selectionEnd = selectPos; // 커서 끝지점을 추가 삽입된 텍스트 이후로 지정
-                txtArea.focus();
-            }
-        },
-        submitEvent : function (e) {
-            e.preventDefault();
-            console.log("전송 목록 정리 ")
         }
     }
 
