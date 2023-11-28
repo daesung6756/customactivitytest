@@ -8,6 +8,6 @@ connection.on("initActivity", () => {
 
 connection.on("clickedNext", () => {
     console.log("완료했다.")
-    var configuration;
+    var configuration = "";
     connection.trigger('updateActivity', configuration)
 })
