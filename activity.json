@@ -10,7 +10,7 @@
         {"FirstName" :  "{{Contact.Attribute.JourneyEntrySource.FirstName}}"},
         {"LastName" :  "{{Contact.Attribute.JourneyEntrySource.lastName}}"}
       ],
-      "url": "백에드경로"
+      "url": "http://172.20.4.200:8080"
     }
   },
   "configurationArguments": {

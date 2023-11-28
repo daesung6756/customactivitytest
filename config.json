@@ -13,9 +13,18 @@
     }
   },
   "configurationArguments": {
+    "save": {
+      "url": "https://daesung6756.github.io/customactivitytest"
+    },
     "publish": {
-      "url": "https://daesung6756.github.io/customactivitytest/"
-    }
+      "url": "https://daesung6756.github.io/customactivitytest"
+    },
+    "validate": {
+      "url": "https://daesung6756.github.io/customactivitytest"
+    },
+    "stop": {
+      "url": "https://daesung6756.github.io/customactivitytest"
+    },
   },
   "arguments": {
     "execute": {
