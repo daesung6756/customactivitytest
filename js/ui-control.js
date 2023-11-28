@@ -219,7 +219,7 @@ async function postData(){
     }
     //console.log(sendData)
     // POST 요청을 보내는 함수
-    const url = 'http://localhost:9090/test';
+    const url = 'http://172.20.4.200:8080/';
     axios.post(url, sendData)
         .then((response) => {
             console.log(response.data)
