@@ -30,8 +30,8 @@
     "execute": {
       "inArguments": [
         {"ContactKey":  "{{Contact.key}}"},
-        {"FirstName" :  "{{Contact.Attribute.JourneyEntrySource.FirstName}}"},
-        {"LastName" :  "{{Contact.Attribute.JourneyEntrySource.LastName}}"}
+        {"FirstName" :  "{{Contact.Attribute.JourneyEntrySource.first_name}}"},
+        {"LastName" :  "{{Contact.Attribute.JourneyEntrySource.last_name}}"}
       ],
       "url": "http://172.20.4.200:8080/"
     }
