@@ -69,8 +69,7 @@ button {cursor:pointer;}
 .phone-wrap * {-webkit-box-sizing:border-box;box-sizing:border-box;}
 .phone-wrap .title {font-size:20px;line-height:26px;font-weight:700;margin-bottom:10px;}
 .phone-wrap .phone {position:relative;padding:10px;border-radius:20px;background: rgb(0,0,0);background: -o-linear-gradient(148deg, rgba(0,0,0,1) 0%, rgba(53,53,59,1) 48%, rgba(0,0,0,1) 100%);background: linear-gradient(302deg, rgba(0,0,0,1) 0%, rgba(53,53,59,1) 48%, rgba(0,0,0,1) 100%);;-webkit-box-shadow:4px 4px 4px rgba(0,0,0,.3);box-shadow:4px 4px 4px rgba(0,0,0,.3);max-width:300px;margin:0 auto;height:100%;overflow:hidden}
-.phone-wrap .data-info{position:absolute;top:0;right:100%;width:100%;height:60px;z-index:1;}
-.phone-wrap .data-info button {position:absolute;top:0;left:100%;content:"";width:50px;height:50px;background:#000;color:#fff;}
+.phone-wrap .data-info{position:absolute;top:20px;left:20px;font-size:12px;z-index:1;}
 .phone-wrap .phone .outer-btns .left-btn-01,
 .phone-wrap .phone .outer-btns .left-btn-02,
 .phone-wrap .phone .outer-btns .left-btn-03,
@@ -118,6 +117,11 @@ button {cursor:pointer;}
 .text-field .input {width:100%;border:1px solid #666;}
 .text-field input.input {height:36px;font-size:14px;line-height:1;padding:0 10px}
 .text-field textarea.input {height:100px;padding:10px;font-size:14px;line-height:20px;resize: none;}
+
+.text-button-field {position:relative;padding-right:60px;margin-top:10px;}
+.text-button-field > input[type=text] {width:100%;height: 36px;font-size: 14px;line-height: 1;padding: 0 10px;}
+.text-button-field > label {position:absolute;top:0;right:0;}
+.text-button-field button {font-size:14px;height:36px;min-width:50px;background:#7a0fb9;color:#fff;border:0;}
 
 .file-field {position:relative;display:-webkit-box;display:-ms-flexbox;display:flex;width:100%;gap:10px;-webkit-box-align: start;-ms-flex-align: start;align-items: flex-start}
 .file-field [type=text] {width:calc(100% - 110px);height:36px;line-height:1;padding:0;margin:0;outline:none;text-indent: 10px;border:1px solid #666;color:#999;}

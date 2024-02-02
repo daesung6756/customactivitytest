@@ -1,11 +1,12 @@
 let returnMessage = []
 let imageFileArray = []
-let totalImageSize = 0;
 
-let messageType
+let messageType = "SMS"
+let totalMessageSize = 0
 let messageTitle = returnMessage[1]
 let messageContent = returnMessage[2]
 let messageTotal = returnMessage[1] + returnMessage[2]
+let totalImageSize = 0;
 let imageGroup = imageFileArray
 let surveyStatus = false
 
@@ -19,10 +20,10 @@ function inputValueViewWrite(elem) {
         elem.nodeName === "INPUT" ?
             (
                 returnMessage[1] = $value,
-                    $title.innerHTML = returnMessage[1]
+                $title.innerHTML = returnMessage[1]
             ) : (
                 returnMessage[2] = $value.replaceAll(/(?:\r\n|\r|\n)/g, "<br/>"),
-                    $content.innerHTML = returnMessage[2]
+                $content.innerHTML = returnMessage[2]
             )
 
         getByteLength(returnMessage, 0)
@@ -40,22 +41,29 @@ function singleCheckboxReturn( elem ) {
 function insertCursorOffset( button ) {
     const $textarea = document.querySelector("[data-insert-textarea]");
     const $value = $textarea.value;
-    const $addValue = button.dataset.propsCode;
+    const $buttonGetDataName = button.dataset.insertButton
+    const $addValue = document.querySelector(`[data-insert-value=${$buttonGetDataName}]`).value
 
-    let cursorStart = $textarea.selectionStart;
-    let cursorEnd = $textarea.selectionEnd;
+    if( $addValue.length <= 0 ) {
+        alert("코드를 입력하세요.")
+    }
 
-    const positionBefore = $value.substring(0, cursorStart);  // 기존텍스트 ~ 커서시작점 까지의 문자
-    const positionAfter = $value.substring(cursorEnd, $value.length);   // 커서끝지점 ~ 기존텍스트 까지의 문자
+    if($buttonGetDataName.length > 0 && $addValue){
+        let cursorStart = $textarea.selectionStart;
+        let cursorEnd = $textarea.selectionEnd;
 
-    $textarea.value = positionBefore + $addValue + positionAfter;
+        const positionBefore = $value.substring(0, cursorStart);  // 기존텍스트 ~ 커서시작점 까지의 문자
+        const positionAfter = $value.substring(cursorEnd, $value.length);   // 커서끝지점 ~ 기존텍스트 까지의 문자
 
-    inputValueViewWrite($textarea, "[data-view-content]")
+        $textarea.value = positionBefore + $addValue + positionAfter;
 
-    cursorStart = cursorStart + $addValue ;
-    $textarea.selectionStart = cursorStart; // 커서 시작점을 추가 삽입된 텍스트 이후로 지정
-    $textarea.selectionEnd = cursorStart; // 커서 끝지점을 추가 삽입된 텍스트 이후로 지정
-    $textarea.focus();
+        inputValueViewWrite($textarea, "[data-view-content]")
+
+        cursorStart = cursorStart + $addValue ;
+        $textarea.selectionStart = cursorStart; // 커서 시작점을 추가 삽입된 텍스트 이후로 지정
+        $textarea.selectionEnd = cursorStart; // 커서 끝지점을 추가 삽입된 텍스트 이후로 지정
+        $textarea.focus();
+    }
 }
 
 // 메세지 용량 계산
@@ -76,23 +84,31 @@ function getByteLength ( messages , blank ){
             } else {
                 byte++
             }
+
         }
 
+        totalMessageSize = byte
 
-        byte > 90 ?
-            (
-                elementView.innerHTML = `${byte} byte /2000 byte`,
-                    alert("MMS"),
-                    messageType = "MMS"
+        const test = setTimeout( () => {
+            byte > 90 ?
+                (
+                    elementView.innerHTML = `MMS : ${totalMessageSize} byte /2000 byte`,
+                        messageType = "MMS",
+                        document.querySelector("#getMessageType").innerText = messageType
 
-            ) : (
-                elementView.innerHTML = `${byte} byte /90 byte`,
-                    messageType = "SMS"
-            )
+                ) : (
+                    elementView.innerHTML = `SMS : ${totalMessageSize} byte /90 byte`,
+                        messageType = "SMS",
+                        document.querySelector("#getMessageType").innerText = messageType
+                )
+            clearTimeout(test)
+        }, 300)
 
     })
 
 }
+
+
 
 // 이미지를 리스트와 뷰어에 추가하는 함수
 function addImageToList(fileInput) {
@@ -174,7 +190,6 @@ function updateImageList() {
     view.innerHTML = ''; // 이미지 뷰 초기화
 
     imageFileArray.length > 0 ?
-
         imageFileArray.forEach(function(fileInfo, index) {
             const listItem = document.createElement('div');
             listItem.className = 'image-list-item';
@@ -214,21 +229,24 @@ async function postData(){
         messageTitle : returnMessage[1],
         messageContent : returnMessage[2],
         messageTotal : returnMessage[1] + returnMessage[2],
+        totalMessageSize : totalMessageSize,
         imageGroup : imageFileArray,
+        totalImageSize : totalImageSize,
         surveyStatus: surveyStatus,
     }
-    //console.log(sendData)
+    console.log(sendData)
+
     // POST 요청을 보내는 함수
-    const url = 'http://172.20.4.200:8080/';
-    axios.post(url, sendData)
-        .then((response) => {
-            console.log(response.data)
-            alert('POST 전송성공')
-        })
-        .catch((error) => {
-            console.error(error);
-            alert('POST 전송실패')
-        })
+    // const url = 'http://172.20.4.200:8080/';
+    // axios.post(url, sendData)
+    //     .then((response) => {
+    //         console.log(response.data)
+    //         alert('POST 전송성공')
+    //     })
+    //     .catch((error) => {
+    //         console.error(error);
+    //         alert('POST 전송실패')
+    //     })
 }
 
 const UI = {
@@ -261,15 +279,15 @@ const UI = {
                 radio.addEventListener("click", () => {
                     radio.id === "sms" ?
                         (
-                            _this.phoneElement.classList.remove("kko"),
-                                _this.phoneElement.classList.add("sms"),
-                                elem.classList.remove("is-hide"),
-                                messageType  = "SMS"
+                            _this.phoneElement.classList.contains("kko") ? _this.phoneElement.classList.remove("kko") : false,
+                            _this.phoneElement.classList.add("sms"),
+                            //elem.classList.remove("is-hide"),
+                            messageType  = "SMS"
                         ) : (
-                            _this.phoneElement.classList.remove("sms"),
-                                _this.phoneElement.classList.add("kko"),
-                                elem.classList.add("is-hide"),
-                                messageType  = "KKO"
+                            _this.phoneElement.classList.contains("sms") ? _this.phoneElement.classList.remove("sms") : false,
+                            _this.phoneElement.classList.add("kko"),
+                            //elem.classList.add("is-hide"),
+                            messageType  = "KKO"
                         )
 
                 })

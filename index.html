@@ -14,7 +14,9 @@
             messageTitle: "",
             messageContent: "",
             messageTotal : "",
+            totalMessageSize: "",
             imageGroup : [],
+            totalImageSize: "",
             surveyStatus: ""
         }
     </script>
@@ -28,7 +30,7 @@
                     <div class="phone-wrap">
                         <div class="phone">
                             <div class="data-info">
-                                <button type="button">정보확인</button>
+                                <span id="getMessageType">SMS</span>
                             </div>
                             <div class="outer-btns">
                                 <span class="left-btn-01"></span>
@@ -56,7 +58,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="notification-wrap is-ani">SMS</div>
+<!--                                <div class="notification-wrap is-ani">SMS</div>-->
                             </div>
                             <div class="phone-foot" >
 
@@ -82,13 +84,13 @@
                         <li>
                             <h3 class="title">- 제목</h3>
                             <fieldset class="text-field">
-                                <input type="text" class="input" placeholder="내용을 입력하세요." onkeyup="inputValueViewWrite(this)"/>
+                                <input type="text" class="input" placeholder="내용을 입력하세요." onchange="inputValueViewWrite(this)"/>
                             </fieldset>
                         </li>
                         <li>
                             <h3 class="title">- 메세지</h3>
                             <fieldset class="text-field">
-                                <textarea class="input" placeholder="내용을 입력하세요." onkeyup="inputValueViewWrite(this)" data-insert-textarea></textarea>
+                                <textarea class="input" placeholder="내용을 입력하세요." onchange="inputValueViewWrite(this)" data-insert-textarea></textarea>
                             </fieldset>
                             <p data-view-size class="text-size">0/90 byte</p>
                             <ul style="display:none;">
@@ -97,6 +99,7 @@
                                 <li>MMS : 한글기준 1,000자(2,000byte) 내외의 장문과 이미지(JPG)를 포함한 메시지</li>
                             </ul>
                         </li>
+                         설문조사
                         <li>
                             <h3 class="title" data-toggle="surveyStatus">- 설문</h3>
                             <p class="desc">아래 체크박스를 체크하시면 진행됩니다. 설문은 캠페인에서 설정하세요.</p>
@@ -108,16 +111,14 @@
                             </div>
                         </li>
                         <li>
-                            <h3 class="title" data-toggle="codeInput">- 코드 삽입</h3>
+                            <h3 class="title" data-toggle="codeInput">- 개인 코드 삽입</h3>
                             <p class="desc">메세지 창에 원하는 위치에 마우스 클릭하시면 해당 위치로 등록됩니다.</p>
                             <div data-toggle-panel="codeInput">
-                                <fieldset class="button-field">
-                                    <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다.">버튼</button>
-                                    <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다2.">버튼</button>
-                                    <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
-                                    <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
-                                    <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
-                                    <button type="button" onclick="insertCursorOffset(this)" data-props-code="테스트입니다3.">버튼</button>
+                                <fieldset class="text-button-field">
+                                    <input type="text" id="insertCodeInput" data-insert-value="inputCode" placeholder="삽입할 코드를 입력해주세요.">
+                                    <label for="insertCodeInput">
+                                        <button type="button" onclick="insertCursorOffset(this)" data-insert-button="inputCode">삽입</button>
+                                    </label>
                                 </fieldset>
                             </div>
                         </li>
