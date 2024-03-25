@@ -11,7 +11,7 @@ let imageGroup = imageFileArray
 let surveyStatus = false
 
 // 인풋 작성한 내용 뷰화면 처리
-function inputValueViewWrite(elem) {
+function inputValueViewWrite( elem ) {
     const $title = document.querySelector("[data-view-title]");
     const $content = document.querySelector("[data-view-content]");
     let $value = elem.value;
@@ -251,9 +251,65 @@ async function postData(){
 
 const UI = {
     init : function () {
+        this.tabs.init();
         this.messageTypeSelect.init();
         this.messageInputView.init();
         this.toggles.init();
+    },
+    tabs: {
+        name: "UI > Tabs",
+        items : document.querySelectorAll("[data-tab]"),
+        itemArray : [],
+        init :function () {
+            this.items.length > 0 ?
+                this.dataCollection() : false
+        },
+        dataCollection : function () {
+            this.items.forEach((item) => {
+                this.itemArray.indexOf(item.dataset.tab) === -1 ?
+                    this.itemArray.push(item.dataset.tab) : false
+            })
+
+            this.itemArray.length > 0 ?
+                this.events() : false
+        },
+        events : function () {
+            this.itemArray.forEach((dataName) => {
+                const controls = document.querySelectorAll(`[data-tab-ctrl=${dataName}]`);
+                const contents = document.querySelectorAll(`[data-tab-content=${dataName}]`);
+                let controlActivate = null
+
+                controlActivate === null ?
+                    (
+                        controls[0].classList.add("is-active"),
+                        contents[0].classList.add("is-show")
+                    ) : false
+
+
+                controls.forEach((btn, index) => {
+                    btn.addEventListener("click", () => {
+
+                        if(controlActivate === null) {
+
+                            btn[0].classList.remove("is-active")
+                            contents[0].classList.remove("is-show")
+                            controlActivate = index
+                            btn[index].classList.add("is-active")
+                            contents[index].classList.add("is-show")
+
+                        } else {
+
+                            btn[controlActivate].classList.remove("is-active")
+                            contents[controlActivate].classList.remove("is-show")
+                            controlActivate = index
+                            btn[controlActivate].classList.add("is-active")
+                            contents[controlActivate].classList.add("is-show")
+                        }
+
+                    })
+                })
+            })
+        }
     },
     messageTypeSelect : {
         name: "UI > Message type Radio",

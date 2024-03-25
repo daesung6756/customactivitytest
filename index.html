@@ -27,6 +27,7 @@
         <form>
             <div class="content-area">
                 <div class="view">
+                    <!-- PHONE WRAP : START -->
                     <div class="phone-wrap">
                         <div class="phone">
                             <div class="data-info">
@@ -60,82 +61,93 @@
                                 </div>
 <!--                                <div class="notification-wrap is-ani">SMS</div>-->
                             </div>
-                            <div class="phone-foot" >
-
-                            </div>
+                            <div class="phone-foot"></div>
                         </div>
 
                     </div>
+                    <!-- //PHONE WRAP : END -->
                 </div>
                 <div class="form-wrap">
-                    <ul class="form-list">
-                        <li>
+                    <div class="tabs" data-tab="form-tab">
+                        <div class="tabs-ctrl">
                             <fieldset class="radio-field">
                                 <span class="radio box-type">
-                                    <input type="radio" id="sms" name="messageType" data-messagetype checked/>
+                                    <input type="radio" id="sms" name="messageType" data-messagetype checked data-tab-ctrl="form-tab"/>
                                     <label for="sms">SMS</label>
                                 </span>
                                 <span class="radio box-type">
-                                    <input type="radio" id="kko" name="messageType" data-messagetype />
-                                    <label for="kko">Kakao</label>
+                                    <input type="radio" id="kko" name="messageType" data-messagetype data-tab-ctrl="form-tab"/>
+                                    <label for="kko">KAKAO</label>
                                 </span>
                             </fieldset>
-                        </li>
-                        <li>
-                            <h3 class="title">- 제목</h3>
-                            <fieldset class="text-field">
-                                <input type="text" class="input" placeholder="내용을 입력하세요." onchange="inputValueViewWrite(this)"/>
-                            </fieldset>
-                        </li>
-                        <li>
-                            <h3 class="title">- 메세지</h3>
-                            <fieldset class="text-field">
-                                <textarea class="input" placeholder="내용을 입력하세요." onchange="inputValueViewWrite(this)" data-insert-textarea></textarea>
-                            </fieldset>
-                            <p data-view-size class="text-size">0/90 byte</p>
-                            <ul style="display:none;">
-                                <li>SMS : 한글기준 45자(90byte) 내외의 단문 메시지</li>
-                                <li>LMS : 한글기준 1,000자(2,000byte) 내외의 장문 메시지</li>
-                                <li>MMS : 한글기준 1,000자(2,000byte) 내외의 장문과 이미지(JPG)를 포함한 메시지</li>
-                            </ul>
-                        </li>
-                         설문조사
-                        <li>
-                            <h3 class="title" data-toggle="surveyStatus">- 설문</h3>
-                            <p class="desc">아래 체크박스를 체크하시면 진행됩니다. 설문은 캠페인에서 설정하세요.</p>
-                            <div data-toggle-panel="surveyStatus">
-                                <fieldset class="checkbox-group">
-                                    <input type="checkbox" id="survey" name="survey" onchange="singleCheckboxReturn(this)">
-                                    <label for="survey">진행</label>
-                                </fieldset>
-                            </div>
-                        </li>
-                        <li>
-                            <h3 class="title" data-toggle="codeInput">- 개인 코드 삽입</h3>
-                            <p class="desc">메세지 창에 원하는 위치에 마우스 클릭하시면 해당 위치로 등록됩니다.</p>
-                            <div data-toggle-panel="codeInput">
-                                <fieldset class="text-button-field">
-                                    <input type="text" id="insertCodeInput" data-insert-value="inputCode" placeholder="삽입할 코드를 입력해주세요.">
-                                    <label for="insertCodeInput">
-                                        <button type="button" onclick="insertCursorOffset(this)" data-insert-button="inputCode">삽입</button>
-                                    </label>
-                                </fieldset>
-                            </div>
-                        </li>
-                        <li>
-                            <h3 class="title" data-toggle="imgUpload">- 이미지 업로드</h3>
-                            <p class="desc in-padding-right">이미지 크키는 MMS기준 (5MB)를 초과하실 수 없습니다.<span id="imageFileSize">0 / 1MB</span></p>
-                            <div data-toggle-panel="imgUpload">
-                                <fieldset class="file-field">
-                                    <label for="imageFile">파일찾기</label>
-                                    <input type="file" id="imageFile" onchange="addImageToList(this)" />
-                                    <div class="image-list">
-                                        <p>파일을 선택하세요.</p>
+                        </div>
+                        <div class="tab-container">
+                        <div class="tab-content" data-tab-content="form-tab">
+                            <ul class="form-list">
+                                <li>
+                                    <h3 class="title">- 제목</h3>
+                                    <fieldset class="text-field">
+                                        <input type="text" class="input" placeholder="내용을 입력하세요." onchange="inputValueViewWrite(this)"/>
+                                    </fieldset>
+                                </li>
+                                <li>
+                                    <h3 class="title">- 메세지</h3>
+                                    <fieldset class="text-field">
+                                        <textarea class="input" placeholder="내용을 입력하세요." onchange="inputValueViewWrite(this)" data-insert-textarea></textarea>
+                                    </fieldset>
+                                    <p data-view-size class="text-size">0/90 byte</p>
+                                    <ul style="display:none;">
+                                        <li>SMS : 한글기준 45자(90byte) 내외의 단문 메시지</li>
+                                        <li>LMS : 한글기준 1,000자(2,000byte) 내외의 장문 메시지</li>
+                                        <li>MMS : 한글기준 1,000자(2,000byte) 내외의 장문과 이미지(JPG)를 포함한 메시지</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <h3 class="title" data-toggle="surveyStatus">- 설문</h3>
+                                    <p class="desc">아래 체크박스를 체크하시면 진행됩니다. 설문은 캠페인에서 설정하세요.</p>
+                                    <div data-toggle-panel="surveyStatus">
+                                        <fieldset class="checkbox-group">
+                                            <input type="checkbox" id="survey" name="survey" onchange="singleCheckboxReturn(this)">
+                                            <label for="survey">진행</label>
+                                        </fieldset>
                                     </div>
-                                </fieldset>
-                            </div>
-                        </li>
-                    </ul>
+                                </li>
+                                <li>
+                                    <h3 class="title" data-toggle="codeInput">- 개인 코드 삽입</h3>
+                                    <p class="desc">메세지 창에 원하는 위치에 마우스 클릭하시면 해당 위치로 등록됩니다.</p>
+                                    <div data-toggle-panel="codeInput">
+                                        <fieldset class="text-button-field">
+                                            <input type="text" id="insertCodeInput" data-insert-value="inputCode" placeholder="삽입할 코드를 입력해주세요.">
+                                            <label for="insertCodeInput">
+                                                <button type="button" onclick="insertCursorOffset(this)" data-insert-button="inputCode">삽입</button>
+                                            </label>
+                                        </fieldset>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h3 class="title" data-toggle="imgUpload">- 이미지 업로드</h3>
+                                    <p class="desc in-padding-right">이미지 크키는 MMS기준 (5MB)를 초과하실 수 없습니다.<span id="imageFileSize">0 / 1MB</span></p>
+                                    <div data-toggle-panel="imgUpload">
+                                        <fieldset class="file-field">
+                                            <label for="imageFile">파일찾기</label>
+                                            <input type="file" id="imageFile" onchange="addImageToList(this)" />
+                                            <div class="image-list">
+                                                <p>파일을 선택하세요.</p>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content" data-tab-content="form-tab">
+                            <ul class="form-list">
+                                <li>
+                                    <h3 class="title">- 카카오톡 로직 정리</h3>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
                 </div>
             </div>
 

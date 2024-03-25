@@ -138,6 +138,11 @@ button {cursor:pointer;}
 .button-field {display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;-webkit-box-pack: start;-ms-flex-pack: start;justify-content: flex-start;-ms-flex-wrap: wrap;flex-wrap: wrap;;font-size:0;line-height:0;gap:6px;}
 .button-field > button {font-size:12px;}
 
+.tabs .tab-ctrl .tab-btn {}
+.tabs .tab-ctrl .tab-btn.is-active {background:#00a61c;color:#fff;}
+.tabs .tab-content {display:none;}
+.tabs .tab-content.is-show {display:block;}
+
 @-webkit-keyframes twinkling {
     0%,20%, 40% , 60%, 80%, 90% {
         opacity:1;
